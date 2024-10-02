@@ -24,5 +24,18 @@ public static class Extensions
       return values;
    }
 
+   public static string? GetAssemblyNameFromAttribute(this Compilation compilation)
+   {
+      var attributeSymbol = compilation.GetTypeByMetadataName("AutoRegisterInject.AutoRegisterInjectAssemblyNameAttribute");
+
+      if (attributeSymbol is null) return null;
+
+      return compilation.Assembly.GetAttributes()
+                        .Where(attribute => attribute.AttributeClass?.Equals(attributeSymbol, SymbolEqualityComparer.Default) is true)
+                        .Select(static attribute => attribute.ConstructorArguments.FirstOrDefault()
+                                                             .Value as string)
+                        .FirstOrDefault();
+   }
+
    #endregion
 }

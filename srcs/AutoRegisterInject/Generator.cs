@@ -57,9 +57,11 @@ public class Generator : IIncrementalGenerator
 
    static void Execute(Compilation compilation, ImmutableArray<IEnumerable<AutoRegisteredClass>> classes, SourceProductionContext context)
    {
-      var assemblyNameForMethod = compilation.AssemblyName!.Replace(".", Empty)
+      var assemblyNameForMethod = compilation.GetAssemblyNameFromAttribute()
+                               ?? compilation.AssemblyName?.Replace(".", Empty)
                                              .Replace(" ", Empty)
-                                             .Trim();
+                                             .Trim()
+                               ?? Empty;
 
       var formatted = Join(NEWLINE,
                            classes.SelectMany(c => c.GroupBy(static x => new

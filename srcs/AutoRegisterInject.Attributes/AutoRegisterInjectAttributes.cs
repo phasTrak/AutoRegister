@@ -2,6 +2,17 @@
 
 namespace AutoRegisterInject;
 
+[AttributeUsage(Assembly)]
+[Conditional("AUTO_REGISTER_INJECT_USAGES")]
+public sealed class AutoRegisterInjectAssemblyNameAttribute(string assemblyName) : Attribute
+{
+   #region properties
+
+   public string AssemblyName { get; } = assemblyName;
+
+   #endregion
+}
+
 [AttributeUsage(Class, Inherited = false)]
 [Conditional("AUTO_REGISTER_INJECT_USAGES")]
 public sealed class RegisterScopedAttribute : Attribute
