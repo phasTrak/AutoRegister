@@ -56,29 +56,24 @@ public class Generator : IIncrementalGenerator
 
    #region methods
 
-   static void Execute(Compilation compilation, ImmutableArray<AutoRegisteredClass> classes, SourceProductionContext context)
+   static void Execute(Compilation compilation, ImmutableArray<IEnumerable<AutoRegisteredClass>> classes, SourceProductionContext context)
    {
       var assemblyNameForMethod = compilation.AssemblyName!.Replace(".", Empty)
                                              .Replace(" ", Empty)
                                              .Trim();
 
-      // Group by name and type because we want to avoid any partial
-      // declarations from popping up twice. Especially true if you
-      // use another source generator that makes a partial class/file
-      // TODO: Refactor below into more readable code, not everything should be one line of code!
-      var registrations = classes.GroupBy(static x => new
-                                                      {
-                                                         x.ClassName,
-                                                         x.RegistrationType,
-                                                         x.ServiceKey
-                                                      })
-                                 .Select(x => GetRegistration(x.Key.RegistrationType,
-                                                              x.Key.ClassName,
-                                                              x.SelectMany(static d => d.Interfaces)
-                                                               .ToArray(),
-                                                              x.Key.ServiceKey));
-
-      var formatted = Join(NEWLINE, registrations);
+      var formatted = Join(NEWLINE,
+                           classes.SelectMany(c => c.GroupBy(static x => new
+                                                                         {
+                                                                            x.ClassName,
+                                                                            x.RegistrationType,
+                                                                            x.ServiceKey
+                                                                         })
+                                                    .Select(x => GetRegistration(x.Key.RegistrationType,
+                                                                                 x.Key.ClassName,
+                                                                                 x.SelectMany(static d => d.Interfaces)
+                                                                                  .ToArray(),
+                                                                                 x.Key.ServiceKey))));
 
       var output = SourceConstants.GenerateClassSource.Replace("{0}", assemblyNameForMethod)
                                   .Replace("{1}", formatted);
@@ -171,7 +166,7 @@ public class Generator : IIncrementalGenerator
       }
    }
 
-   static AutoRegisteredClass GetAutoRegisteredClassDeclarations(GeneratorSyntaxContext context)
+   static IEnumerable<AutoRegisteredClass> GetAutoRegisteredClassDeclarations(GeneratorSyntaxContext context)
    {
       var classDeclaration = (ClassDeclarationSyntax)context.Node;
 
@@ -188,7 +183,7 @@ public class Generator : IIncrementalGenerator
          var symbol   = (INamedTypeSymbol?)context.SemanticModel.GetDeclaredSymbol(classDeclaration);
          var typeName = symbol?.ToDisplayString();
 
-         if (symbol is null || typeName is null) return null!;
+         if (symbol is null || typeName is null) continue;
 
          var attributeData = symbol.GetFirstAutoRegisterAttribute(fullyQualifiedAttributeName);
 
@@ -214,13 +209,11 @@ public class Generator : IIncrementalGenerator
                                .ToArray();
          }
 
-         return new (typeName,
-                     registrationType,
-                     registerAs,
-                     serviceKey);
+         yield return new (typeName,
+                           registrationType,
+                           registerAs,
+                           serviceKey);
       }
-
-      return null!;
    }
 
    public void Initialize(IncrementalGeneratorInitializationContext context)
