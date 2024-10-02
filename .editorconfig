@@ -1,0 +1,6 @@
+[*]
+indent_style = space
+indent_size = 3
+tab_width = 3
+[*.cs]
+dotnet_sort_system_directives_first = false

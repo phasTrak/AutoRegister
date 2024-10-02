@@ -19,7 +19,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\AutoRegisterInject\AutoRegisterInject.csproj" />
+		<ProjectReference Include="..\..\srcs\AutoRegisterInject\AutoRegisterInject.csproj" />
 	</ItemGroup>
 
 </Project>

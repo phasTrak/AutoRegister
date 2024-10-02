@@ -1,0 +1,42 @@
+﻿<Project>
+
+   <Import Project="$(MSBuildThisFileDirectory)Version.props"/>
+
+   <PropertyGroup>
+      <AssemblyVersion>$(Wave).$(Date)</AssemblyVersion>
+      <Authors>phasTrak</Authors>
+      <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)Strict.ruleset</CodeAnalysisRuleSet>
+      <Company>phasTrak</Company>
+      <Copyright>© 2024 phasTrak</Copyright>
+      <FileVersion>$(Wave).$(Date)</FileVersion>
+      <GeneratePackageOnBuild Condition="'$(Configuration)'=='Release'">True</GeneratePackageOnBuild>
+      <ImplicitUsings>enable</ImplicitUsings>
+      <LangVersion>12.0</LangVersion>
+      <NoPackageAnalysis>true</NoPackageAnalysis>
+      <NoWarn>S3358,S3626</NoWarn>
+      <Nullable>enable</Nullable>
+      <OutputPath>$(MSBuildThisFileDirectory)bin\$(Configuration)\</OutputPath>
+      <Product>AutoRegisterInject</Product>
+      <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
+      <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
+      <TargetFramework>netstandard2.0</TargetFramework>
+      <Title>AutoRegisterInject</Title>
+   </PropertyGroup>
+
+   <PropertyGroup>
+      <Description>C# Source Generator to automatically register dependencies in Microsoft Dependency Injection Service Collection</Description>
+      <PackageIcon>Icon.png</PackageIcon>
+      <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+      <PackageProjectUrl>https://github.com/patrickklaeren/AutoRegisterInject</PackageProjectUrl>
+      <PackageReadmeFile>README.md</PackageReadmeFile>
+      <PackageTags>source generator;dependency injection;dependencies;registration;extensions;ioc</PackageTags>
+      <RepositoryType>git</RepositoryType>
+      <RepositoryUrl>https://github.com/patrickklaeren/AutoRegisterInject</RepositoryUrl>
+   </PropertyGroup>
+
+   <ItemGroup>
+      <Using Include="System.Diagnostics"/>
+      <Using Include="System.Diagnostics.CodeAnalysis"/>
+   </ItemGroup>
+
+</Project>

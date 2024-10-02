@@ -11,8 +11,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\AutoRegisterInject\AutoRegisterInject.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
-		<ProjectReference Include="..\AutoRegisterInject.IntegrationTest.Project1\AutoRegisterInject.IntegrationTest.Project1.csproj" />
+		<ProjectReference Include="..\..\..\srcs\AutoRegisterInject\AutoRegisterInject.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
 	</ItemGroup>
 
 </Project>
