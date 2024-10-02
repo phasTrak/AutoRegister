@@ -23,17 +23,6 @@
       <Title>AutoRegisterInject</Title>
    </PropertyGroup>
 
-   <PropertyGroup>
-      <Description>C# Source Generator to automatically register dependencies in Microsoft Dependency Injection Service Collection</Description>
-      <PackageIcon>Icon.png</PackageIcon>
-      <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-      <PackageProjectUrl>https://github.com/patrickklaeren/AutoRegisterInject</PackageProjectUrl>
-      <PackageReadmeFile>README.md</PackageReadmeFile>
-      <PackageTags>source generator;dependency injection;dependencies;registration;extensions;ioc</PackageTags>
-      <RepositoryType>git</RepositoryType>
-      <RepositoryUrl>https://github.com/patrickklaeren/AutoRegisterInject</RepositoryUrl>
-   </PropertyGroup>
-
    <ItemGroup>
       <PackageReference Include="PolySharp"
                         PrivateAssets="all"/>

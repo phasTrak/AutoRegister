@@ -1,12 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
    <PropertyGroup>
+      <Description>C# Source Generator to automatically register dependencies in Microsoft Dependency Injection Service Collection</Description>
+      <PackageIcon>Icon.png</PackageIcon>
+      <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+      <PackageProjectUrl>https://github.com/FXZFun/ActuallyUsefulAutoRegisterInject</PackageProjectUrl>
+      <PackageReadmeFile>README.md</PackageReadmeFile>
+      <PackageTags>source generator;dependency injection;dependencies;registration;extensions;ioc</PackageTags>
+      <RepositoryType>git</RepositoryType>
+      <RepositoryUrl>https://github.com/FXZFun/ActuallyUsefulAutoRegisterInject</RepositoryUrl>
+   </PropertyGroup>
+
+   <PropertyGroup>
       <DevelopmentDependency>true</DevelopmentDependency>
       <IncludeBuildOutput>false</IncludeBuildOutput>
       <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
-      <PackageReadmeFile>README.md</PackageReadmeFile>
-      <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-      <PackageIcon>Icon.png</PackageIcon>
    </PropertyGroup>
 
    <PropertyGroup>
@@ -22,10 +30,23 @@
    </ItemGroup>
 
    <ItemGroup>
+      <ProjectReference Include="..\AutoRegisterInject.Attributes\AutoRegisterInject.Attributes.csproj"
+                        PrivateAssets="all"/>
+   </ItemGroup>
+
+   <ItemGroup>
       <None Include="$(OutputPath)\$(AssemblyName).dll"
             Pack="true"
             PackagePath="analyzers\dotnet\cs"
             Visible="false"/>
+      <None Include="$(OutputPath)\$(AssemblyName).Attributes.dll"
+            Pack="true"
+            PackagePath="analyzers\dotnet\cs"
+            Visible="false"/>
+      <None Include="$(OutputPath)\$(AssemblyName).Attributes.dll"
+            Pack="true"
+            PackagePath="lib\netstandard2.0"
+            Visible="true"/>
       <None Include="..\..\README.md"
             Pack="true"
             PackagePath="\"/>

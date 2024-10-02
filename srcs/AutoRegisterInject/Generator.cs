@@ -181,7 +181,7 @@ public class Generator : IIncrementalGenerator
                     .Symbol is not IMethodSymbol attributeSymbol)
             continue;
 
-         var fullyQualifiedAttributeName = attributeSymbol.ContainingType.ToString();
+         var fullyQualifiedAttributeName = attributeSymbol.ContainingSymbol.Name;
 
          if (!RegistrationTypes.TryGetValue(fullyQualifiedAttributeName, out var registrationType)) continue;
 
@@ -225,8 +225,6 @@ public class Generator : IIncrementalGenerator
 
    public void Initialize(IncrementalGeneratorInitializationContext context)
    {
-      context.RegisterPostInitializationOutput(static i => { i.AddSource("AutoRegisterInject.Attributes.g.cs", SourceText.From(SourceConstants.GenerateAttributeSource, Encoding.UTF8)); });
-
       var autoRegistered = context.SyntaxProvider.CreateSyntaxProvider(static (node, _) => node is ClassDeclarationSyntax { AttributeLists.Count: > 0 }, static (ctx, _) => GetAutoRegisteredClassDeclarations(ctx))
                                   .Where(static autoRegisteredClass => autoRegisteredClass is not null);
 
