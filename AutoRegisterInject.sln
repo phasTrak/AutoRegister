@@ -9,6 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "itms", "itms", "{9AD30C30-8
 		.gitignore = .gitignore
 		AutoRegisterInject.sln.DotSettings = AutoRegisterInject.sln.DotSettings
 		Directory.Build.props = Directory.Build.props
+		Directory.Packages.props = Directory.Packages.props
 		Icon.png = Icon.png
 		LICENSE.txt = LICENSE.txt
 		Strict.ruleset = Strict.ruleset
