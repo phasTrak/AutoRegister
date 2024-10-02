@@ -1,330 +1,300 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace AutoRegisterInject.IntegrationTest.Project1
+namespace AutoRegisterInject.IntegrationTest.Project1;
+
+public static class Project1
 {
-    public static class Project1
-    {
-        public static void Init()
-        {
-            var serviceCollection = new ServiceCollection()
-                .AutoRegister()
-                .AutoRegisterFromAutoRegisterInjectIntegrationTestProject1();
+   #region methods
 
-            serviceCollection.BuildServiceProvider();
-        }
-    }
+   public static void Init()
+   {
+      var serviceCollection = new ServiceCollection().AutoRegister()
+                                                     .AutoRegisterFromAutoRegisterInjectIntegrationTestProject1();
 
-    [RegisterScoped]
-    public partial class PartialClassTest
-    {
+      serviceCollection.BuildServiceProvider();
+   }
 
-    }
+   #endregion
+}
 
-    public partial class PartialClassTest
-    {
+[RegisterScoped] public partial class PartialClassTest;
 
-    }
+public partial class PartialClassTest;
 
-    [
-        RegisterTransient, 
-        RegisterSingleton, 
-        RegisterScoped, 
-        TryRegisterScoped, 
-        TryRegisterSingleton, 
-        TryRegisterTransient, 
-        TryRegisterKeyedScoped(serviceKey: "TryRegisterKeyedScoped"),
-        TryRegisterKeyedSingleton(serviceKey: "TryRegisterKeyedSingleton"),
-        TryRegisterKeyedTransient(serviceKey: "TryRegisterKeyedScoped"),
-        RegisterKeyedScoped(serviceKey: "RegisterKeyedScoped"),
-        RegisterKeyedSingleton(serviceKey: "RegisterKeyedSingleton"),
-        RegisterKeyedTransient(serviceKey: "RegisterKeyedTransient")
-    ]
-    public class MultipleRegisterTest
-    {
+[RegisterTransient]
+[RegisterSingleton]
+[RegisterScoped]
+[TryRegisterScoped]
+[TryRegisterSingleton]
+[TryRegisterTransient]
+[TryRegisterKeyedScoped("TryRegisterKeyedScoped")]
+[TryRegisterKeyedSingleton("TryRegisterKeyedSingleton")]
+[TryRegisterKeyedTransient("TryRegisterKeyedScoped")]
+[RegisterKeyedScoped("RegisterKeyedScoped")]
+[RegisterKeyedSingleton("RegisterKeyedSingleton")]
+[RegisterKeyedTransient("RegisterKeyedTransient")]
+public class MultipleRegisterTest;
 
-    }
+[RegisterScoped] public class ScopedTest;
 
-    [RegisterScoped]
-    public class ScopedTest
-    {
+[RegisterSingleton] public class SingletonTest;
 
-    }
+[RegisterTransient] public class TransientTest;
 
-    [RegisterSingleton]
-    public class SingletonTest
-    {
+[TryRegisterScoped] public class TryScopedTest;
 
-    }
+[TryRegisterSingleton] public class TrySingletonTest;
 
-    [RegisterTransient]
-    public class TransientTest
-    {
+[TryRegisterTransient] public class TryTransientTest;
 
-    }
-    
-    [TryRegisterScoped]
-    public class TryScopedTest
-    {
+[TryRegisterKeyedScoped("TryRegisterKeyedScoped")] public class TryKeyedScopedTest;
 
-    }
+[TryRegisterKeyedSingleton("TryRegisterKeyedSingleton")] public class TryKeyedSingletonTest;
 
-    [TryRegisterSingleton]
-    public class TrySingletonTest
-    {
+[TryRegisterKeyedTransient("TryRegisterKeyedScoped")] public class TryKeyedTransientTest;
 
-    }
+[RegisterKeyedScoped("RegisterKeyedScoped")] public class KeyedScopedTest;
 
-    [TryRegisterTransient]
-    public class TryTransientTest
-    {
+[RegisterKeyedSingleton("RegisterKeyedSingleton")] public class KeyedSingletonTest;
 
-    }
-    
-    [TryRegisterKeyedScoped(serviceKey: "TryRegisterKeyedScoped")]
-    public class TryKeyedScopedTest
-    {
+[RegisterKeyedTransient("RegisterKeyedTransient")] public class KeyedTransientTest;
 
-    }
+public interface IInterfaceTest;
 
-    [TryRegisterKeyedSingleton(serviceKey: "TryRegisterKeyedSingleton")]
-    public class TryKeyedSingletonTest
-    {
+[RegisterScoped] public class RegisterScopedInterfaceTest : IInterfaceTest;
 
-    }
+[TryRegisterScoped] public class TryRegisterScopedInterfaceTest : IInterfaceTest;
 
-    [TryRegisterKeyedTransient(serviceKey: "TryRegisterKeyedScoped")]
-    public class TryKeyedTransientTest
-    {
+[TryRegisterKeyedScoped("TryRegisterKeyedScopedInterface")] public class TryRegisterKeyedScopedInterfaceTest : IInterfaceTest;
 
-    }
-    
-    [RegisterKeyedScoped(serviceKey: "RegisterKeyedScoped")]
-    public class KeyedScopedTest
-    {
+[RegisterKeyedScoped("RegisterKeyedScopedInterface")] public class RegisterKeyedScopedInterfaceTest : IInterfaceTest;
 
-    }
+public interface IMultiInterfaceTest;
 
-    [RegisterKeyedSingleton(serviceKey: "RegisterKeyedSingleton")]
-    public class KeyedSingletonTest
-    {
+[RegisterScoped]
+public class RegisterMultiInterfaceTest : IInterfaceTest,
+                                          IMultiInterfaceTest,
+                                          IDisposable,
+                                          IAsyncDisposable
+{
+   #region methods
 
-    }
+   public void Dispose()
+   {
+      // TODO release managed resources here
+   }
 
-    [RegisterKeyedTransient(serviceKey: "RegisterKeyedTransient")]
-    public class KeyedTransientTest
-    {
+   public ValueTask DisposeAsync() => new ();
 
-    }
+   #endregion
+}
 
-    public interface IInterfaceTest
-    {
+[TryRegisterScoped]
+public class TryRegisterMultiInterfaceTest : IInterfaceTest,
+                                             IMultiInterfaceTest,
+                                             IDisposable,
+                                             IAsyncDisposable
+{
+   #region methods
 
-    }
+   public void Dispose()
+   {
+      // TODO release managed resources here
+   }
 
-    [RegisterScoped]
-    public class RegisterScopedInterfaceTest : IInterfaceTest
-    {
+   public ValueTask DisposeAsync() => new ();
 
-    }
-    
-    [TryRegisterScoped]
-    public class TryRegisterScopedInterfaceTest : IInterfaceTest
-    {
+   #endregion
+}
 
-    }
-    
-    [TryRegisterKeyedScoped(serviceKey: "TryRegisterKeyedScopedInterface")]
-    public class TryRegisterKeyedScopedInterfaceTest : IInterfaceTest
-    {
+[TryRegisterKeyedScoped("TryRegisterKeyedScopedMultipleInterface")]
+public class TryRegisterKeyedMultiInterfaceTest : IInterfaceTest,
+                                                  IMultiInterfaceTest,
+                                                  IDisposable,
+                                                  IAsyncDisposable
+{
+   #region methods
 
-    }
-    
-    [RegisterKeyedScoped(serviceKey: "RegisterKeyedScopedInterface")]
-    public class RegisterKeyedScopedInterfaceTest : IInterfaceTest
-    {
+   public void Dispose()
+   {
+      // TODO release managed resources here
+   }
 
-    }
+   public ValueTask DisposeAsync() => new ();
 
-    public interface IMultiInterfaceTest
-    {
+   #endregion
+}
 
-    }
+[RegisterKeyedScoped("RegisterKeyedScopedMultipleInterface")]
+public class RegisterKeyedMultiInterfaceTest : IInterfaceTest,
+                                               IMultiInterfaceTest,
+                                               IDisposable,
+                                               IAsyncDisposable
+{
+   #region methods
 
-    [RegisterScoped]
-    public class RegisterMultiInterfaceTest : IInterfaceTest, IMultiInterfaceTest, IDisposable, IAsyncDisposable
-    {
-        public void Dispose()
-        {
-            // TODO release managed resources here
-        }
+   public void Dispose()
+   {
+      // TODO release managed resources here
+   }
 
-        public ValueTask DisposeAsync()
-        {
-            return new ValueTask();
-        }
-    }
-    
-    [TryRegisterScoped]
-    public class TryRegisterMultiInterfaceTest : IInterfaceTest, IMultiInterfaceTest, IDisposable, IAsyncDisposable
-    {
-        public void Dispose()
-        {
-            // TODO release managed resources here
-        }
+   public ValueTask DisposeAsync() => new ();
 
-        public ValueTask DisposeAsync()
-        {
-            return new ValueTask();
-        }
-    }
-    
-    [TryRegisterKeyedScoped(serviceKey: "TryRegisterKeyedScopedMultipleInterface")]
-    public class TryRegisterKeyedMultiInterfaceTest : IInterfaceTest, IMultiInterfaceTest, IDisposable, IAsyncDisposable
-    {
-        public void Dispose()
-        {
-            // TODO release managed resources here
-        }
+   #endregion
+}
 
-        public ValueTask DisposeAsync()
-        {
-            return new ValueTask();
-        }
-    }
-    
-    [RegisterKeyedScoped(serviceKey: "RegisterKeyedScopedMultipleInterface")]
-    public class RegisterKeyedMultiInterfaceTest : IInterfaceTest, IMultiInterfaceTest, IDisposable, IAsyncDisposable
-    {
-        public void Dispose()
-        {
-            // TODO release managed resources here
-        }
+public interface IIgnore;
 
-        public ValueTask DisposeAsync()
-        {
-            return new ValueTask();
-        }
-    }
+// Multiple Interface Single Ignorance
+[RegisterScoped(onlyRegisterAs: typeof(IIgnore))]
+public class RegisterScopedMultiInterfaceIgnoranceTest : IInterfaceTest,
+                                                         IMultiInterfaceTest,
+                                                         IDisposable,
+                                                         IAsyncDisposable,
+                                                         IIgnore
+{
+   #region methods
 
-    public interface IIgnore
-    {
-        
-    }
+   public void Dispose()
+   {
+      // TODO release managed resources here
+   }
 
-    // Multiple Interface Single Ignorance
-    [RegisterScoped(onlyRegisterAs: typeof(IIgnore))]
-    public class RegisterScopedMultiInterfaceIgnoranceTest : IInterfaceTest, IMultiInterfaceTest, IDisposable, IAsyncDisposable, IIgnore
-    {
-        public void Dispose()
-        {
-            // TODO release managed resources here
-        }
+   public ValueTask DisposeAsync() => new ();
 
-        public ValueTask DisposeAsync()
-        {
-            return new ValueTask();
-        }
-    }
-    
-    [TryRegisterScoped(onlyRegisterAs: typeof(IIgnore))]
-    public class TryRegisterScopedMultiInterfaceIgnoranceTest : IInterfaceTest, IMultiInterfaceTest, IDisposable, IAsyncDisposable, IIgnore
-    {
-        public void Dispose()
-        {
-            // TODO release managed resources here
-        }
+   #endregion
+}
 
-        public ValueTask DisposeAsync()
-        {
-            return new ValueTask();
-        }
-    }
-    
-    [TryRegisterKeyedScoped(serviceKey: "TryRegisterKeyedScopedMultipleInterfaceSingleIgnore", onlyRegisterAs: typeof(IIgnore))]
-    public class TryRegisterKeyedScopedMultiInterfaceIgnoranceTest : IInterfaceTest, IMultiInterfaceTest, IDisposable, IAsyncDisposable, IIgnore
-    {
-        public void Dispose()
-        {
-            // TODO release managed resources here
-        }
+[TryRegisterScoped(onlyRegisterAs: typeof(IIgnore))]
+public class TryRegisterScopedMultiInterfaceIgnoranceTest : IInterfaceTest,
+                                                            IMultiInterfaceTest,
+                                                            IDisposable,
+                                                            IAsyncDisposable,
+                                                            IIgnore
+{
+   #region methods
 
-        public ValueTask DisposeAsync()
-        {
-            return new ValueTask();
-        }
-    }
-    
-    [RegisterKeyedScoped(serviceKey: "RegisterKeyedScopedMultipleInterfaceSingleIgnore", onlyRegisterAs: typeof(IIgnore))]
-    public class RegisterKeyedScopedMultiInterfaceIgnoranceTest : IInterfaceTest, IMultiInterfaceTest, IDisposable, IAsyncDisposable, IIgnore
-    {
-        public void Dispose()
-        {
-            // TODO release managed resources here
-        }
+   public void Dispose()
+   {
+      // TODO release managed resources here
+   }
 
-        public ValueTask DisposeAsync()
-        {
-            return new ValueTask();
-        }
-    }
-    
-    
-    // Multiple Interface Multiple Ignorance
-    [RegisterScoped(typeof(IIgnore), typeof(IInterfaceTest))]
-    public class RegisterScopedMultiInterfaceMultiIgnoranceTest : IInterfaceTest, IMultiInterfaceTest, IDisposable, IAsyncDisposable, IIgnore
-    {
-        public void Dispose()
-        {
-            // TODO release managed resources here
-        }
+   public ValueTask DisposeAsync() => new ();
 
-        public ValueTask DisposeAsync()
-        {
-            return new ValueTask();
-        }
-    }
-    
-    [TryRegisterScoped(typeof(IIgnore), typeof(IInterfaceTest))]
-    public class TryRegisterScopedMultiInterfaceMultiIgnoranceTest : IInterfaceTest, IMultiInterfaceTest, IDisposable, IAsyncDisposable, IIgnore
-    {
-        public void Dispose()
-        {
-            // TODO release managed resources here
-        }
+   #endregion
+}
 
-        public ValueTask DisposeAsync()
-        {
-            return new ValueTask();
-        }
-    }
-    
-    [TryRegisterKeyedScoped(serviceKey: "TryRegisterKeyedScopedMultipleInterfaceMultipleIgnore", typeof(IIgnore), typeof(IInterfaceTest))]
-    public class TryRegisterKeyedScopedMultiInterfaceMultiIgnoranceTest : IInterfaceTest, IMultiInterfaceTest, IDisposable, IAsyncDisposable, IIgnore
-    {
-        public void Dispose()
-        {
-            // TODO release managed resources here
-        }
+[TryRegisterKeyedScoped("TryRegisterKeyedScopedMultipleInterfaceSingleIgnore", typeof(IIgnore))]
+public class TryRegisterKeyedScopedMultiInterfaceIgnoranceTest : IInterfaceTest,
+                                                                 IMultiInterfaceTest,
+                                                                 IDisposable,
+                                                                 IAsyncDisposable,
+                                                                 IIgnore
+{
+   #region methods
 
-        public ValueTask DisposeAsync()
-        {
-            return new ValueTask();
-        }
-    }
-    
-    [RegisterKeyedScoped(serviceKey: "RegisterKeyedScopedMultipleInterfaceMultipleIgnore", typeof(IIgnore), typeof(IInterfaceTest))]
-    public class RegisterKeyedScopedMultiInterfaceMultiIgnoranceTest : IInterfaceTest, IMultiInterfaceTest, IDisposable, IAsyncDisposable, IIgnore
-    {
-        public void Dispose()
-        {
-            // TODO release managed resources here
-        }
+   public void Dispose()
+   {
+      // TODO release managed resources here
+   }
 
-        public ValueTask DisposeAsync()
-        {
-            return new ValueTask();
-        }
-    }
+   public ValueTask DisposeAsync() => new ();
+
+   #endregion
+}
+
+[RegisterKeyedScoped("RegisterKeyedScopedMultipleInterfaceSingleIgnore", typeof(IIgnore))]
+public class RegisterKeyedScopedMultiInterfaceIgnoranceTest : IInterfaceTest,
+                                                              IMultiInterfaceTest,
+                                                              IDisposable,
+                                                              IAsyncDisposable,
+                                                              IIgnore
+{
+   #region methods
+
+   public void Dispose()
+   {
+      // TODO release managed resources here
+   }
+
+   public ValueTask DisposeAsync() => new ();
+
+   #endregion
+}
+
+// Multiple Interface Multiple Ignorance
+[RegisterScoped(typeof(IIgnore), typeof(IInterfaceTest))]
+public class RegisterScopedMultiInterfaceMultiIgnoranceTest : IInterfaceTest,
+                                                              IMultiInterfaceTest,
+                                                              IDisposable,
+                                                              IAsyncDisposable,
+                                                              IIgnore
+{
+   #region methods
+
+   public void Dispose()
+   {
+      // TODO release managed resources here
+   }
+
+   public ValueTask DisposeAsync() => new ();
+
+   #endregion
+}
+
+[TryRegisterScoped(typeof(IIgnore), typeof(IInterfaceTest))]
+public class TryRegisterScopedMultiInterfaceMultiIgnoranceTest : IInterfaceTest,
+                                                                 IMultiInterfaceTest,
+                                                                 IDisposable,
+                                                                 IAsyncDisposable,
+                                                                 IIgnore
+{
+   #region methods
+
+   public void Dispose()
+   {
+      // TODO release managed resources here
+   }
+
+   public ValueTask DisposeAsync() => new ();
+
+   #endregion
+}
+
+[TryRegisterKeyedScoped("TryRegisterKeyedScopedMultipleInterfaceMultipleIgnore", typeof(IIgnore), typeof(IInterfaceTest))]
+public class TryRegisterKeyedScopedMultiInterfaceMultiIgnoranceTest : IInterfaceTest,
+                                                                      IMultiInterfaceTest,
+                                                                      IDisposable,
+                                                                      IAsyncDisposable,
+                                                                      IIgnore
+{
+   #region methods
+
+   public void Dispose()
+   {
+      // TODO release managed resources here
+   }
+
+   public ValueTask DisposeAsync() => new ();
+
+   #endregion
+}
+
+[RegisterKeyedScoped("RegisterKeyedScopedMultipleInterfaceMultipleIgnore", typeof(IIgnore), typeof(IInterfaceTest))]
+public class RegisterKeyedScopedMultiInterfaceMultiIgnoranceTest : IInterfaceTest,
+                                                                   IMultiInterfaceTest,
+                                                                   IDisposable,
+                                                                   IAsyncDisposable,
+                                                                   IIgnore
+{
+   #region methods
+
+   public void Dispose()
+   {
+      // TODO release managed resources here
+   }
+
+   public ValueTask DisposeAsync() => new ();
+
+   #endregion
 }

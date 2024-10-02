@@ -1,29 +1,23 @@
-﻿using System;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace AutoRegisterInject.IntegrationTest.Project2
+namespace AutoRegisterInject.IntegrationTest.Project2;
+
+public static class Project2
 {
-    public static class Project2
-    {
-        public static void Init()
-        {
-            var serviceCollection = new ServiceCollection()
-                .AutoRegister()
-                .AutoRegisterFromAutoRegisterInjectIntegrationTestProject1()
-                .AutoRegisterFromAutoRegisterInjectIntegrationTestProject2();
+   #region methods
 
-            serviceCollection.BuildServiceProvider();
-        }
-    }
+   public static void Init()
+   {
+      var serviceCollection = new ServiceCollection().AutoRegister()
+                                                     .AutoRegisterFromAutoRegisterInjectIntegrationTestProject1()
+                                                     .AutoRegisterFromAutoRegisterInjectIntegrationTestProject2();
 
-    [RegisterScoped]
-    public partial class PartialClassTest
-    {
+      serviceCollection.BuildServiceProvider();
+   }
 
-    }
-
-    public partial class PartialClassTest
-    {
-
-    }
+   #endregion
 }
+
+[RegisterScoped] public partial class PartialClassTest;
+
+public partial class PartialClassTest;

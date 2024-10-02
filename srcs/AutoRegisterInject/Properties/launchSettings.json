@@ -1,8 +1,8 @@
 {
   "profiles": {
-    "Profile 1": {
+    "Debug": {
       "commandName": "DebugRoslynComponent",
-      "targetProject": "..\\AutoRegisterInject.IntegrationTests\\AutoRegisterInject.IntegrationTest.ThirdParty\\AutoRegisterInject.IntegrationTest.ThirdParty.csproj"
+      "targetProject": "..\\..\\tsts\\AutoRegisterInject.IntegrationTests\\AutoRegisterInject.IntegrationTest.ThirdParty\\AutoRegisterInject.IntegrationTest.ThirdParty.csproj"
     }
   }
 }

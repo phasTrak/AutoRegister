@@ -1,40 +1,28 @@
-﻿using System;
-using System.Linq;
-using Microsoft.CodeAnalysis;
-
-namespace AutoRegisterInject;
+﻿namespace AutoRegisterInject;
 
 public static class Extensions
 {
-    public static AttributeData GetFirstAutoRegisterAttribute(this ISymbol symbol, string attributeName)
-    {
-        return symbol.GetAttributes().First(ad => ad.AttributeClass?.Name == attributeName);
-    }
-    
-    public static string[] GetIgnoredTypeNames(this AttributeData attributeData, string parameterName)
-    {
-        if (attributeData.AttributeConstructor is null)
-        {
-            return null;
-        }
+   #region methods
 
-        var parameterIndex = attributeData
-            .AttributeConstructor
-            .Parameters
-            .ToList()
-            .FindIndex(c => c.Name == parameterName);
+   public static AttributeData GetFirstAutoRegisterAttribute(this ISymbol symbol, string attributeName) =>
+      symbol.GetAttributes()
+            .First(ad => ad.AttributeClass?.Name == attributeName);
 
-        if (parameterIndex < 0)
-        {
-            return null;
-        }
+   public static string[] GetIgnoredTypeNames(this AttributeData attributeData, string parameterName)
+   {
+      if (attributeData.AttributeConstructor is null) return [];
 
-        var values = attributeData
-            .ConstructorArguments[parameterIndex]
-            .Values
-            .Select(x => x.Value.ToString())
-            .ToArray();
+      var parameterIndex = attributeData.AttributeConstructor.Parameters.ToList()
+                                        .FindIndex(c => c.Name == parameterName);
 
-        return values;
-    }
+      if (parameterIndex < 0) return [];
+
+      var values = attributeData.ConstructorArguments[parameterIndex]
+                                .Values.Select(static x => x.Value?.ToString() ?? Empty)
+                                .ToArray();
+
+      return values;
+   }
+
+   #endregion
 }

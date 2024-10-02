@@ -1,26 +1,24 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 
-namespace AutoRegisterInject.IntegrationTest.ThirdParty
+namespace AutoRegisterInject.IntegrationTest.ThirdParty;
+
+public static class Project3
 {
-    public static class Project3
-    {
-        public static void Init()
-        {
-            var serviceCollection = new ServiceCollection()
-                .AutoRegister();
+   #region methods
 
-            serviceCollection.BuildServiceProvider();
-        }
-    }
+   public static void Init()
+   {
+      var serviceCollection = new ServiceCollection().AutoRegister();
 
-    [RegisterScoped]
-    public class Baseline { }
+      serviceCollection.BuildServiceProvider();
+   }
 
-    [RegisterScoped]
-    public class FluentValidator : AbstractValidator<Baseline> { }
-
-    [RegisterScoped(typeof(IValidator<Baseline>))]
-    public class FluentValidator2 : AbstractValidator<Baseline> { }
+   #endregion
 }
+
+[RegisterScoped] public class Baseline;
+
+[RegisterScoped] public class FluentValidator : AbstractValidator<Baseline>;
+
+[RegisterScoped(typeof(IValidator<Baseline>))] public class FluentValidator2 : AbstractValidator<Baseline>;

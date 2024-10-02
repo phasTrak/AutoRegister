@@ -1,36 +1,41 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<TargetFramework>netstandard2.0</TargetFramework>
-		<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
-		<CompilerGeneratedFilesOutputPath>Generated</CompilerGeneratedFilesOutputPath>
-		<IsRoslynComponent>true</IsRoslynComponent>
-		<LangVersion>latest</LangVersion>
-		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-		<Title>AutoRegisterInject</Title>
-		<Authors>Patrick Klaeren</Authors>
-		<Description>C# Source Generator to automatically register dependencies in Microsoft Dependency Injection Service Collection</Description>
-    	<Copyright>Copyright © Patrick Klaeren</Copyright>
-		<PackageProjectUrl>https://github.com/patrickklaeren/AutoRegisterInject</PackageProjectUrl>
-		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-		<PackageIcon>Icon.png</PackageIcon>
-		<RepositoryUrl>https://github.com/patrickklaeren/AutoRegisterInject</RepositoryUrl>
-		<RepositoryType>git</RepositoryType>
-		<PackageTags>source generator;dependency injection;dependencies;registration;extensions;ioc</PackageTags>
-		<Version>1.4.0</Version>
-	</PropertyGroup>
+   <PropertyGroup>
+      <DevelopmentDependency>true</DevelopmentDependency>
+      <IncludeBuildOutput>false</IncludeBuildOutput>
+      <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
+      <PackageReadmeFile>README.md</PackageReadmeFile>
+      <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+      <PackageIcon>Icon.png</PackageIcon>
+   </PropertyGroup>
 
-	<ItemGroup>
-		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" PrivateAssets="all" />
-		<PackageReference Include="Microsoft.CodeAnalysis.Analyzers" PrivateAssets="all" />
-	</ItemGroup>
+   <PropertyGroup>
+      <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+      <IsRoslynComponent>true</IsRoslynComponent>
+   </PropertyGroup>
 
-	<ItemGroup>
-		<None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
-		<None Include="..\..\README.md" Pack="true" PackagePath="\" />
-		<None Include="..\..\LICENSE.txt" Pack="true" PackagePath="\" />
-		<None Include="..\..\Icon.png" Pack="true" PackagePath="\" Visible="false" />
-	</ItemGroup>
+   <ItemGroup>
+      <PackageReference Include="Microsoft.CodeAnalysis.CSharp"
+                        PrivateAssets="all"/>
+      <PackageReference Include="Microsoft.CodeAnalysis.Analyzers"
+                        PrivateAssets="all"/>
+   </ItemGroup>
+
+   <ItemGroup>
+      <None Include="$(OutputPath)\$(AssemblyName).dll"
+            Pack="true"
+            PackagePath="analyzers\dotnet\cs"
+            Visible="false"/>
+      <None Include="..\..\README.md"
+            Pack="true"
+            PackagePath="\"/>
+      <None Include="..\..\LICENSE.txt"
+            Pack="true"
+            PackagePath="\"/>
+      <None Include="..\..\Icon.png"
+            Pack="true"
+            PackagePath="\"
+            Visible="false"/>
+   </ItemGroup>
 
 </Project>
