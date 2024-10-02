@@ -1,6 +1,6 @@
 ﻿namespace AutoRegisterInject;
 
-[Generator]
+[Generator(CSharp)]
 public class Generator : IIncrementalGenerator
 {
    #region fields
@@ -165,51 +165,64 @@ public class Generator : IIncrementalGenerator
    static IEnumerable<AutoRegisteredClass> GetAutoRegisteredClassDeclarations(GeneratorSyntaxContext context)
    {
       var classDeclaration = (ClassDeclarationSyntax)context.Node;
+      var classSymbol      = (INamedTypeSymbol?)context.SemanticModel.GetDeclaredSymbol(classDeclaration);
+      var typeName         = classSymbol?.ToDisplayString();
 
-      foreach (var attributeSyntax in classDeclaration.AttributeLists.SelectMany(static attributeListSyntax => attributeListSyntax.Attributes))
+      if (classSymbol is null || typeName is null) yield break;
+
+      var attributes = classDeclaration.AttributeLists.SelectMany(static attributeListSyntax => attributeListSyntax.Attributes);
+
+      foreach (var attributeSyntax in attributes)
       {
          if (context.SemanticModel.GetSymbolInfo(attributeSyntax)
                     .Symbol is not IMethodSymbol attributeSymbol)
             continue;
 
-         var fullyQualifiedAttributeName = attributeSymbol.ContainingSymbol.Name;
+         var attributeName = attributeSymbol.ContainingSymbol.Name;
 
-         if (!RegistrationTypes.TryGetValue(fullyQualifiedAttributeName, out var registrationType)) continue;
+         if (!RegistrationTypes.TryGetValue(attributeName, out var registrationType)) continue;
 
-         var symbol   = (INamedTypeSymbol?)context.SemanticModel.GetDeclaredSymbol(classDeclaration);
-         var typeName = symbol?.ToDisplayString();
+         var attributeData = classSymbol.GetFirstAutoRegisterAttribute(attributeName);
 
-         if (symbol is null || typeName is null) continue;
-
-         var attributeData = symbol.GetFirstAutoRegisterAttribute(fullyQualifiedAttributeName);
-
-         string[] registerAs;
-         var      serviceKey = Empty;
-
-         if (attributeData.AttributeConstructor?.Parameters.Length > 0 && attributeData.AttributeConstructor?.Parameters.Any(static a => a.Name == SERVICE_KEY) is true)
-         {
-            serviceKey = attributeData.ConstructorArguments.First()
-                                      .Value?.ToString();
-         }
-
-         if (attributeData.AttributeConstructor?.Parameters.Length > 0 && attributeData.GetIgnoredTypeNames(ONLY_REGISTER_AS) is { Length: > 0 } onlyRegisterAs)
-         {
-            registerAs = symbol.AllInterfaces.Select(static x => x.ToDisplayString())
-                               .Where(x => onlyRegisterAs.Contains(x))
-                               .ToArray();
-         }
-         else
-         {
-            registerAs = symbol.Interfaces.Select(static x => x.ToDisplayString())
-                               .Where(static x => !IgnoredInterfaces.Contains(x))
-                               .ToArray();
-         }
+         var serviceKey = GetServiceKey(attributeData);
+         var registerAs = GetRegisterAs(attributeData, classSymbol);
 
          yield return new (typeName,
                            registrationType,
                            registerAs,
                            serviceKey);
       }
+   }
+
+   static string[] GetRegisterAs(AttributeData attributeData, ITypeSymbol classSymbol)
+   {
+      string[] registerAs;
+
+      if (attributeData.AttributeConstructor?.Parameters.Length > 0 && attributeData.GetIgnoredTypeNames(ONLY_REGISTER_AS) is { Length: > 0 } onlyRegisterAs)
+      {
+         registerAs = classSymbol.AllInterfaces.Select(static x => x.ToDisplayString())
+                                 .Where(x => onlyRegisterAs.Contains(x))
+                                 .ToArray();
+      }
+      else
+      {
+         registerAs = classSymbol.Interfaces.Select(static x => x.ToDisplayString())
+                                 .Where(static x => !IgnoredInterfaces.Contains(x))
+                                 .ToArray();
+      }
+
+      return registerAs;
+   }
+
+   static object? GetServiceKey(AttributeData attributeData)
+   {
+      if (attributeData.AttributeConstructor?.Parameters.Length > 0 && attributeData.AttributeConstructor?.Parameters.Any(static a => a.Name == SERVICE_KEY) is true)
+      {
+         return attributeData.ConstructorArguments.First()
+                             .Value?.ToString();
+      }
+
+      return null;
    }
 
    public void Initialize(IncrementalGeneratorInitializationContext context)
