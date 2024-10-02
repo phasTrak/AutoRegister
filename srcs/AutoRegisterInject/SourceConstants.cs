@@ -11,16 +11,19 @@ sealed class SourceConstants
                                                // </auto-generated>
                                                using Microsoft.Extensions.DependencyInjection;
                                                using Microsoft.Extensions.DependencyInjection.Extensions;
+                                               
+                                               namespace {0};
+                                               
                                                public static class AutoRegisterInjectServiceCollectionExtension
                                                {
-                                                   public static Microsoft.Extensions.DependencyInjection.IServiceCollection AutoRegisterFrom{0}(this Microsoft.Extensions.DependencyInjection.IServiceCollection serviceCollection)
+                                                   public static Microsoft.Extensions.DependencyInjection.IServiceCollection AutoRegisterFrom{1}(this Microsoft.Extensions.DependencyInjection.IServiceCollection serviceCollection)
                                                    {
                                                        return AutoRegister(serviceCollection);
                                                    }
                                                
                                                    internal static Microsoft.Extensions.DependencyInjection.IServiceCollection AutoRegister(this Microsoft.Extensions.DependencyInjection.IServiceCollection serviceCollection)
                                                    {
-                                                       {1}
+                                                       {2}
                                                        return serviceCollection;
                                                    }
                                                }

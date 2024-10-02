@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using AutoRegisterInject.IntegrationTest.Project1;
 
 namespace AutoRegisterInject.IntegrationTest.Project2;
 

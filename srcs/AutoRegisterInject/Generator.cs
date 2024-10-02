@@ -74,8 +74,10 @@ public class Generator : IIncrementalGenerator
                                                                                   .ToArray(),
                                                                                  x.Key.ServiceKey))));
 
-      var output = SourceConstants.GenerateClassSource.Replace("{0}", assemblyNameForMethod)
-                                  .Replace("{1}", formatted);
+      var output = SourceConstants.GenerateClassSource
+                                  .Replace("{0}", compilation.AssemblyName ?? "AutoRegisterInject")
+                                  .Replace("{1}", assemblyNameForMethod)
+                                  .Replace("{2}", formatted);
 
       context.AddSource("AutoRegisterInject.ServiceCollectionExtension.g.cs", SourceText.From(output, Encoding.UTF8));
 
