@@ -1,6 +1,8 @@
-﻿namespace AutoRegisterInject;
+﻿// ReSharper disable UnusedParameter.Local
 
-[AttributeUsage(AttributeTargets.Class, Inherited = false)]
+namespace AutoRegisterInject;
+
+[AttributeUsage(Class, Inherited = false)]
 [Conditional("AUTO_REGISTER_INJECT_USAGES")]
 public sealed class RegisterScopedAttribute : Attribute
 {
@@ -11,18 +13,18 @@ public sealed class RegisterScopedAttribute : Attribute
    #endregion
 }
 
-[AttributeUsage(AttributeTargets.Class, Inherited = false)]
+[AttributeUsage(Class, Inherited = false)]
 [Conditional("AUTO_REGISTER_INJECT_USAGES")]
 public sealed class RegisterKeyedScopedAttribute : Attribute
 {
    #region constructors
 
-   public RegisterKeyedScopedAttribute(string serviceKey, params Type[] onlyRegisterAs) { }
+   public RegisterKeyedScopedAttribute(object? serviceKey, params Type[] onlyRegisterAs) { }
 
    #endregion
 }
 
-[AttributeUsage(AttributeTargets.Class, Inherited = false)]
+[AttributeUsage(Class, Inherited = false)]
 [Conditional("AUTO_REGISTER_INJECT_USAGES")]
 public sealed class TryRegisterScopedAttribute : Attribute
 {
@@ -33,18 +35,18 @@ public sealed class TryRegisterScopedAttribute : Attribute
    #endregion
 }
 
-[AttributeUsage(AttributeTargets.Class, Inherited = false)]
+[AttributeUsage(Class, Inherited = false)]
 [Conditional("AUTO_REGISTER_INJECT_USAGES")]
 public sealed class TryRegisterKeyedScopedAttribute : Attribute
 {
    #region constructors
 
-   public TryRegisterKeyedScopedAttribute(string serviceKey, params Type[] onlyRegisterAs) { }
+   public TryRegisterKeyedScopedAttribute(object? serviceKey, params Type[] onlyRegisterAs) { }
 
    #endregion
 }
 
-[AttributeUsage(AttributeTargets.Class, Inherited = false)]
+[AttributeUsage(Class, Inherited = false)]
 [Conditional("AUTO_REGISTER_INJECT_USAGES")]
 public sealed class RegisterSingletonAttribute : Attribute
 {
@@ -55,18 +57,18 @@ public sealed class RegisterSingletonAttribute : Attribute
    #endregion
 }
 
-[AttributeUsage(AttributeTargets.Class, Inherited = false)]
+[AttributeUsage(Class, Inherited = false)]
 [Conditional("AUTO_REGISTER_INJECT_USAGES")]
 public sealed class RegisterKeyedSingletonAttribute : Attribute
 {
    #region constructors
 
-   public RegisterKeyedSingletonAttribute(string serviceKey, params Type[] onlyRegisterAs) { }
+   public RegisterKeyedSingletonAttribute(object? serviceKey, params Type[] onlyRegisterAs) { }
 
    #endregion
 }
 
-[AttributeUsage(AttributeTargets.Class, Inherited = false)]
+[AttributeUsage(Class, Inherited = false)]
 [Conditional("AUTO_REGISTER_INJECT_USAGES")]
 public sealed class TryRegisterSingletonAttribute : Attribute
 {
@@ -77,18 +79,18 @@ public sealed class TryRegisterSingletonAttribute : Attribute
    #endregion
 }
 
-[AttributeUsage(AttributeTargets.Class, Inherited = false)]
+[AttributeUsage(Class, Inherited = false)]
 [Conditional("AUTO_REGISTER_INJECT_USAGES")]
 public sealed class TryRegisterKeyedSingletonAttribute : Attribute
 {
    #region constructors
 
-   public TryRegisterKeyedSingletonAttribute(string serviceKey, params Type[] onlyRegisterAs) { }
+   public TryRegisterKeyedSingletonAttribute(object? serviceKey, params Type[] onlyRegisterAs) { }
 
    #endregion
 }
 
-[AttributeUsage(AttributeTargets.Class, Inherited = false)]
+[AttributeUsage(Class, Inherited = false)]
 [Conditional("AUTO_REGISTER_INJECT_USAGES")]
 public sealed class RegisterTransientAttribute : Attribute
 {
@@ -99,18 +101,18 @@ public sealed class RegisterTransientAttribute : Attribute
    #endregion
 }
 
-[AttributeUsage(AttributeTargets.Class, Inherited = false)]
+[AttributeUsage(Class, Inherited = false)]
 [Conditional("AUTO_REGISTER_INJECT_USAGES")]
 public sealed class RegisterKeyedTransientAttribute : Attribute
 {
    #region constructors
 
-   public RegisterKeyedTransientAttribute(string serviceKey, params Type[] onlyRegisterAs) { }
+   public RegisterKeyedTransientAttribute(object? serviceKey, params Type[] onlyRegisterAs) { }
 
    #endregion
 }
 
-[AttributeUsage(AttributeTargets.Class, Inherited = false)]
+[AttributeUsage(Class, Inherited = false)]
 [Conditional("AUTO_REGISTER_INJECT_USAGES")]
 public sealed class TryRegisterTransientAttribute : Attribute
 {
@@ -121,15 +123,15 @@ public sealed class TryRegisterTransientAttribute : Attribute
    #endregion
 }
 
-[AttributeUsage(AttributeTargets.Class, Inherited = false)]
+[AttributeUsage(Class, Inherited = false)]
 [Conditional("AUTO_REGISTER_INJECT_USAGES")]
 public sealed class TryRegisterKeyedTransientAttribute : Attribute
 {
    #region constructors
 
-   public TryRegisterKeyedTransientAttribute(string serviceKey, params Type[] onlyRegisterAs) { }
+   public TryRegisterKeyedTransientAttribute(object? serviceKey, params Type[] onlyRegisterAs) { }
 
    #endregion
 }
 
-[AttributeUsage(AttributeTargets.Class, Inherited = false)] [Conditional("AUTO_REGISTER_INJECT_USAGES")] public sealed class RegisterHostedServiceAttribute : Attribute;
+[AttributeUsage(Class, Inherited = false)] [Conditional("AUTO_REGISTER_INJECT_USAGES")] public sealed class RegisterHostedServiceAttribute : Attribute;

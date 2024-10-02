@@ -5,11 +5,10 @@ public class Generator : IIncrementalGenerator
 {
    #region fields
 
-   const string HOSTED_SERVICE_ATTRIBUTE_NAME             = "RegisterHostedServiceAttribute";
-   const string KEYED_SCOPED_ATTRIBUTE_NAME               = "RegisterKeyedScopedAttribute";
-   const string KEYED_SERVICE_EXCEPTION_FORMATTED_MESSAGE = "{0} requires a service key to be passed as an argument. Service Key argument was null, empty, or whitespace.";
-   const string KEYED_SINGLETON_ATTRIBUTE_NAME            = "RegisterKeyedSingletonAttribute";
-   const string KEYED_TRANSIENT_ATTRIBUTE_NAME            = "RegisterKeyedTransientAttribute";
+   const string HOSTED_SERVICE_ATTRIBUTE_NAME  = "RegisterHostedServiceAttribute";
+   const string KEYED_SCOPED_ATTRIBUTE_NAME    = "RegisterKeyedScopedAttribute";
+   const string KEYED_SINGLETON_ATTRIBUTE_NAME = "RegisterKeyedSingletonAttribute";
+   const string KEYED_TRANSIENT_ATTRIBUTE_NAME = "RegisterKeyedTransientAttribute";
 
    const string NEWLINE = """
 
@@ -85,10 +84,9 @@ public class Generator : IIncrementalGenerator
       string GetRegistration(AutoRegistrationType type,
                              string className,
                              string[] interfaces,
-                             string? serviceKey)
+                             object? serviceKey)
       {
-         var hasInterfaces           = interfaces.Any();
-         var isServiceKeyEmptyOrNull = IsNullOrWhiteSpace(serviceKey);
+         var hasInterfaces = interfaces.Any();
 
          return type switch
                 {
@@ -110,48 +108,42 @@ public class Generator : IIncrementalGenerator
                    AutoRegistrationType.TrySingleton when !hasInterfaces => Format(SourceConstants.GenerateTrySingletonSource, className),
                    AutoRegistrationType.TrySingleton                     => Join(NEWLINE, interfaces.Select(d => Format(SourceConstants.GenerateTrySingletonInterfaceSource, d, className))),
 
-                   AutoRegistrationType.KeyedScoped when isServiceKeyEmptyOrNull => throw new ArgumentException(Format(KEYED_SERVICE_EXCEPTION_FORMATTED_MESSAGE, nameof(AutoRegistrationType.KeyedScoped))),
-                   AutoRegistrationType.KeyedScoped when !hasInterfaces          => Format(SourceConstants.GenerateKeyedScopedSource, className, serviceKey),
+                   AutoRegistrationType.KeyedScoped when !hasInterfaces => Format(SourceConstants.GenerateKeyedScopedSource, className, serviceKey),
                    AutoRegistrationType.KeyedScoped => Join(NEWLINE,
                                                             interfaces.Select(d => Format(SourceConstants.GenerateKeyedScopedInterfaceSource,
                                                                                           d,
                                                                                           className,
                                                                                           serviceKey))),
 
-                   AutoRegistrationType.KeyedSingleton when isServiceKeyEmptyOrNull => throw new ArgumentException(Format(KEYED_SERVICE_EXCEPTION_FORMATTED_MESSAGE, nameof(AutoRegistrationType.KeyedSingleton))),
-                   AutoRegistrationType.KeyedSingleton when !hasInterfaces          => Format(SourceConstants.GenerateKeyedSingletonSource, className, serviceKey),
+                   AutoRegistrationType.KeyedSingleton when !hasInterfaces => Format(SourceConstants.GenerateKeyedSingletonSource, className, serviceKey),
                    AutoRegistrationType.KeyedSingleton => Join(NEWLINE,
                                                                interfaces.Select(d => Format(SourceConstants.GenerateKeyedSingletonInterfaceSource,
                                                                                              d,
                                                                                              className,
                                                                                              serviceKey))),
 
-                   AutoRegistrationType.KeyedTransient when isServiceKeyEmptyOrNull => throw new ArgumentException(Format(KEYED_SERVICE_EXCEPTION_FORMATTED_MESSAGE, nameof(AutoRegistrationType.KeyedTransient))),
-                   AutoRegistrationType.KeyedTransient when !hasInterfaces          => Format(SourceConstants.GenerateKeyedTransientSource, className, serviceKey),
+                   AutoRegistrationType.KeyedTransient when !hasInterfaces => Format(SourceConstants.GenerateKeyedTransientSource, className, serviceKey),
                    AutoRegistrationType.KeyedTransient => Join(NEWLINE,
                                                                interfaces.Select(d => Format(SourceConstants.GenerateKeyedTransientInterfaceSource,
                                                                                              d,
                                                                                              className,
                                                                                              serviceKey))),
 
-                   AutoRegistrationType.TryKeyedScoped when isServiceKeyEmptyOrNull => throw new ArgumentException(Format(KEYED_SERVICE_EXCEPTION_FORMATTED_MESSAGE, nameof(AutoRegistrationType.TryKeyedScoped))),
-                   AutoRegistrationType.TryKeyedScoped when !hasInterfaces          => Format(SourceConstants.GenerateTryKeyedScopedSource, className, serviceKey),
+                   AutoRegistrationType.TryKeyedScoped when !hasInterfaces => Format(SourceConstants.GenerateTryKeyedScopedSource, className, serviceKey),
                    AutoRegistrationType.TryKeyedScoped => Join(NEWLINE,
                                                                interfaces.Select(d => Format(SourceConstants.GenerateTryKeyedScopedInterfaceSource,
                                                                                              d,
                                                                                              className,
                                                                                              serviceKey))),
 
-                   AutoRegistrationType.TryKeyedSingleton when isServiceKeyEmptyOrNull => throw new ArgumentException(Format(KEYED_SERVICE_EXCEPTION_FORMATTED_MESSAGE, nameof(AutoRegistrationType.TryKeyedSingleton))),
-                   AutoRegistrationType.TryKeyedSingleton when !hasInterfaces          => Format(SourceConstants.GenerateTryKeyedSingletonSource, className, serviceKey),
+                   AutoRegistrationType.TryKeyedSingleton when !hasInterfaces => Format(SourceConstants.GenerateTryKeyedSingletonSource, className, serviceKey),
                    AutoRegistrationType.TryKeyedSingleton => Join(NEWLINE,
                                                                   interfaces.Select(d => Format(SourceConstants.GenerateTryKeyedSingletonInterfaceSource,
                                                                                                 d,
                                                                                                 className,
                                                                                                 serviceKey))),
 
-                   AutoRegistrationType.TryKeyedTransient when isServiceKeyEmptyOrNull => throw new ArgumentException(Format(KEYED_SERVICE_EXCEPTION_FORMATTED_MESSAGE, nameof(AutoRegistrationType.TryKeyedTransient))),
-                   AutoRegistrationType.TryKeyedTransient when !hasInterfaces          => Format(SourceConstants.GenerateTryKeyedTransientSource, className, serviceKey),
+                   AutoRegistrationType.TryKeyedTransient when !hasInterfaces => Format(SourceConstants.GenerateTryKeyedTransientSource, className, serviceKey),
                    AutoRegistrationType.TryKeyedTransient => Join(NEWLINE,
                                                                   interfaces.Select(d => Format(SourceConstants.GenerateTryKeyedTransientInterfaceSource,
                                                                                                 d,
