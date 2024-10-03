@@ -1,8 +1,8 @@
 ﻿<Project>
 
    <PropertyGroup>
-      <Date>2024.923</Date>
-      <PreRelease>-vnext-06</PreRelease>
+      <Date>2024.1003</Date>
+      <PreRelease>-vnext-08</PreRelease>
       <Revision>0</Revision>
       <Wave>24.8</Wave>
       <Version>$(Wave).$(Revision)$(PreRelease)</Version>

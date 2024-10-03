@@ -1,6 +1,11 @@
-# AutoRegisterInject
+[![Nuget](https://img.shields.io/nuget/v/AutoRegisterInject)](https://www.nuget.org/packages/AutoRegisterInject/)
+# <img src="Icon.png" width=32 /> (ActuallyUseful) AutoRegisterInject
+AutoRegisterInject is a C# source generator that will automatically create Microsoft.Extensions.DependencyInjection registrations for types marked with attributes.
 
-AutoRegisterInject, also referred to as ARI, is a C# source generator that will automatically create Microsoft.Extensions.DependencyInjection registrations for types marked with attributes.
+> [!NOTE]
+> This source generator is a fork of [AutoRegisterInject by @patrickklaeren](https://github.com/patrickklaeren/AutoRegisterInject).
+> This fork provides support for a variety of usages that are not supported by ARI since it is highly opinionated.
+> This fork attempts to be non-opinionated in order to provide an actually useful product in most scenarios.
 
 This is a compile time alternative to reflection/assembly scanning for your injections or manually adding to the `ServiceCollection` every time a new type needs to be registered.
 
@@ -106,9 +111,8 @@ and get the following output:
 serviceCollection.AddTransient<IBar, Bar>();
 ```
 
-**Important note:** AutoRegisterInject is opinionated and `Bar` will only be registered with its implemented interface. ARI will **not** register `Bar`. `Bar` will always need to be resolved from `IBar` in your code.
-
 Implementing multiple interfaces will have the implementing type be registered for each distinct interface.
+
 
 ```cs
 [RegisterTransient]
@@ -123,11 +127,15 @@ serviceCollection.AddTransient<IFoo, Bar>();
 serviceCollection.AddTransient<IBaz, Bar>();
 ```
 
-**Important note:** AutoRegisterInject is opinionated and `Bar` will only be registered with its implemented interfaces. ARI will **not** register `Bar`. `Bar` will always need to be resolved from `IBar`, `IFoo` or `IBaz` in your code.
+> [!NOTE]
+> If the target class implements an interface, it will only be registered with the implemented interfaces (`IBar`).
+> If the class should be resolved as `Bar` instead of by the interface, make use of the ExcludeTypes option:
+> ```cs
+> [RegisterTransient(ExcludeTypes = [typeof(IBar), typeof(IFoo), typeof(IBaz)])]
 
 ### Multiple assemblies
 
-In addition to the `AutoRegister` extension method, every assembly that AutoRegisterInject is a part of, a `AutoRegisterFromAssemblyName` will be generated. This allows you to configure your service collection from one, main, executing assembly.
+In addition to the `AutoRegister` extension method, for every assembly that AutoRegisterInject is a part of, a `AutoRegisterFromAssemblyName` will be generated. This allows you to configure your service collection from one, main, executing assembly.
 
 Given 3 assemblies, `MyProject.Main`, `MyProject.Services`, `MyProject.Data`, you can configure the `ServiceCollection` as such:
 
@@ -140,6 +148,15 @@ serviceCollection.BuildServiceProvider();
 ```
 
 AutoRegisterInject will remove illegal characters from assembly names in order to generate legal C# method names. `,`, `.` and ` ` will be removed.
+
+If the resulting extension method name conflicts with another assembly, you can supply an assembly-level attribute to override the extension method name for that assembly.
+```cs
+[assembly: AutoRegisterInjectAssemblyName("MyProjectDataServices")]
+```
+This will rename the extension with the provided assembly name override:
+```cs
+serviceCollection.AutoRegisterFromMyProjectDataServices();
+```
 
 ### Ignoring interfaces
 
@@ -169,8 +186,22 @@ Where you want to register as multiple interfaces, you can pass multiple types.
 public class Foo;
 ```
 
+You can also set specific interfaces to exclude from being registered with the ExcludeTypes option:
+```cs
+[RegisterScoped(ExcludeTypes = [typeof(IFoo)])]
+public class Foo;
+```
+
 This works for all applicable attributes.
+
+## Fork Changes
+ - Support `InternalsVisibleTo`
+ - Allow registering as multiple types (e.g. Scoped and KeyedScoped)
+ - Customized extension method naming
+ - Attributes and extensions are scoped to a namespace
 
 ## License
 
 AutoRegisterInject is MIT licensed. Do with it what you please under the terms of MIT.
+
+[View License](LICENSE.md)

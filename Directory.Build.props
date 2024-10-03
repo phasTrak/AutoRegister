@@ -9,7 +9,6 @@
       <Company>phasTrak</Company>
       <Copyright>© 2024 phasTrak</Copyright>
       <FileVersion>$(Wave).$(Date)</FileVersion>
-      <GeneratePackageOnBuild Condition="'$(Configuration)'=='Release'">True</GeneratePackageOnBuild>
       <ImplicitUsings>enable</ImplicitUsings>
       <LangVersion>12.0</LangVersion>
       <NoPackageAnalysis>true</NoPackageAnalysis>

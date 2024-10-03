@@ -4,15 +4,16 @@
       <Description>C# Source Generator to automatically register dependencies in Microsoft Dependency Injection Service Collection</Description>
       <PackageIcon>Icon.png</PackageIcon>
       <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-      <PackageProjectUrl>https://github.com/FXZFun/ActuallyUsefulAutoRegisterInject</PackageProjectUrl>
+      <PackageProjectUrl>https://github.com/phasTrak/ActuallyUsefulAutoRegisterInject</PackageProjectUrl>
       <PackageReadmeFile>README.md</PackageReadmeFile>
       <PackageTags>source generator;dependency injection;dependencies;registration;extensions;ioc</PackageTags>
       <RepositoryType>git</RepositoryType>
-      <RepositoryUrl>https://github.com/FXZFun/ActuallyUsefulAutoRegisterInject</RepositoryUrl>
+      <RepositoryUrl>https://github.com/phasTrak/ActuallyUsefulAutoRegisterInject</RepositoryUrl>
    </PropertyGroup>
 
    <PropertyGroup>
       <DevelopmentDependency>true</DevelopmentDependency>
+      <GeneratePackageOnBuild Condition="'$(Configuration)'=='Release'">True</GeneratePackageOnBuild>
       <IncludeBuildOutput>false</IncludeBuildOutput>
       <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
    </PropertyGroup>
