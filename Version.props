@@ -2,9 +2,9 @@
 
    <PropertyGroup>
       <Date>2024.1003</Date>
-      <PreRelease>-vnext-08</PreRelease>
+      <PreRelease></PreRelease>
       <Revision>0</Revision>
-      <Wave>24.8</Wave>
+      <Wave>1.0</Wave>
       <Version>$(Wave).$(Revision)$(PreRelease)</Version>
    </PropertyGroup>
 

@@ -1,0 +1,9 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+   <PropertyGroup>
+      <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+      <NoWarn>$(NoWarn),IDE0060,IDE0130</NoWarn>
+      <RootNamespace>AutoRegister</RootNamespace>
+   </PropertyGroup>
+
+</Project>
