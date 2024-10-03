@@ -146,7 +146,7 @@ public class RegisterKeyedMultiInterfaceTest : IInterfaceTest,
 public interface IIgnore;
 
 // Multiple Interface Single Ignorance
-[RegisterScoped(onlyRegisterAs: typeof(IIgnore))]
+[RegisterScoped(AsTypes = [typeof(IIgnore)])]
 public class RegisterScopedMultiInterfaceIgnoranceTest : IInterfaceTest,
                                                          IMultiInterfaceTest,
                                                          IDisposable,
@@ -165,7 +165,7 @@ public class RegisterScopedMultiInterfaceIgnoranceTest : IInterfaceTest,
    #endregion
 }
 
-[TryRegisterScoped(onlyRegisterAs: typeof(IIgnore))]
+[TryRegisterScoped(typeof(IIgnore))]
 public class TryRegisterScopedMultiInterfaceIgnoranceTest : IInterfaceTest,
                                                             IMultiInterfaceTest,
                                                             IDisposable,
@@ -261,7 +261,7 @@ public class TryRegisterScopedMultiInterfaceMultiIgnoranceTest : IInterfaceTest,
    #endregion
 }
 
-[TryRegisterKeyedScoped("TryRegisterKeyedScopedMultipleInterfaceMultipleIgnore", typeof(IIgnore), typeof(IInterfaceTest))]
+[TryRegisterKeyedScoped("TryRegisterKeyedScopedMultipleInterfaceMultipleIgnore", ExcludeTypes = [typeof(IMultiInterfaceTest)])]
 public class TryRegisterKeyedScopedMultiInterfaceMultiIgnoranceTest : IInterfaceTest,
                                                                       IMultiInterfaceTest,
                                                                       IDisposable,
@@ -280,7 +280,7 @@ public class TryRegisterKeyedScopedMultiInterfaceMultiIgnoranceTest : IInterface
    #endregion
 }
 
-[RegisterKeyedScoped("RegisterKeyedScopedMultipleInterfaceMultipleIgnore", typeof(IIgnore), typeof(IInterfaceTest))]
+[RegisterKeyedScoped("RegisterKeyedScopedMultipleInterfaceMultipleIgnore", ExcludeTypes = [typeof(IMultiInterfaceTest)])]
 public class RegisterKeyedScopedMultiInterfaceMultiIgnoranceTest : IInterfaceTest,
                                                                    IMultiInterfaceTest,
                                                                    IDisposable,

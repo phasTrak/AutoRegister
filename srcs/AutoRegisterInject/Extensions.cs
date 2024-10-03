@@ -4,24 +4,41 @@ public static class Extensions
 {
    #region methods
 
-   public static AttributeData GetFirstAutoRegisterAttribute(this ISymbol symbol, string attributeName) =>
-      symbol.GetAttributes()
-            .First(ad => ad.AttributeClass?.Name == attributeName);
+   // argument extensions courtesy of @BlackWhiteYoshi's AutoInterface
 
-   public static string[] GetIgnoredTypeNames(this AttributeData attributeData, string parameterName)
+   /// <summary>
+   ///    <para>Finds the argument with the given name and returns it's value.</para>
+   ///    <para>If not found, it returns null.</para>
+   /// </summary>
+   /// <param name="arguments"></param>
+   /// <param name="name"></param>
+   /// <returns></returns>
+   public static TypedConstant? GetArgument(this ImmutableArray<KeyValuePair<string, TypedConstant>> arguments, string name) =>
+      arguments.FirstOrDefault(t => t.Key == name)
+               .Value;
+
+   /// <summary>
+   ///    <para>Finds the argument with the given name and returns it's value as array.</para>
+   ///    <para>If not found or any value is not cast-able, it returns an empty array.</para>
+   /// </summary>
+   /// <typeparam name="T"></typeparam>
+   /// <param name="arguments"></param>
+   /// <param name="name"></param>
+   /// <returns></returns>
+   public static T[] GetArgumentArray<T>(this ImmutableArray<KeyValuePair<string, TypedConstant>> arguments, string name)
    {
-      if (attributeData.AttributeConstructor is null) return [];
+      if (arguments.GetArgument(name) is not { Kind: TypedConstantKind.Array } typeArray) return [];
 
-      var parameterIndex = attributeData.AttributeConstructor.Parameters.ToList()
-                                        .FindIndex(c => c.Name == parameterName);
+      var result = new T[typeArray.Values.Length];
 
-      if (parameterIndex < 0) return [];
+      for (var i = 0; i < result.Length; i++)
+      {
+         if (typeArray.Values[i].Value is not T value) return [];
 
-      var values = attributeData.ConstructorArguments[parameterIndex]
-                                .Values.Select(static x => x.Value?.ToString() ?? Empty)
-                                .ToArray();
+         result[i] = value;
+      }
 
-      return values;
+      return result;
    }
 
    public static string? GetAssemblyNameFromAttribute(this Compilation compilation)
@@ -36,6 +53,10 @@ public static class Extensions
                                                              .Value as string)
                         .FirstOrDefault();
    }
+
+   public static AttributeData GetFirstAutoRegisterAttribute(this ISymbol symbol, string attributeName) =>
+      symbol.GetAttributes()
+            .First(ad => ad.AttributeClass?.Name == attributeName);
 
    #endregion
 }

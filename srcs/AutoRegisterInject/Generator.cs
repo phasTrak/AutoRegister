@@ -15,9 +15,7 @@ public class Generator : IIncrementalGenerator
 
                           """;
 
-   const string ONLY_REGISTER_AS                   = "onlyRegisterAs";
    const string SCOPED_ATTRIBUTE_NAME              = "RegisterScopedAttribute";
-   const string SERVICE_KEY                        = "serviceKey";
    const string SINGLETON_ATTRIBUTE_NAME           = "RegisterSingletonAttribute";
    const string TRANSIENT_ATTRIBUTE_NAME           = "RegisterTransientAttribute";
    const string TRY_KEYED_SCOPED_ATTRIBUTE_NAME    = "TryRegisterKeyedScopedAttribute";
@@ -196,33 +194,38 @@ public class Generator : IIncrementalGenerator
 
    static string[] GetRegisterAs(AttributeData attributeData, ITypeSymbol classSymbol)
    {
-      string[] registerAs;
-
-      if (attributeData.AttributeConstructor?.Parameters.Length > 0 && attributeData.GetIgnoredTypeNames(ONLY_REGISTER_AS) is { Length: > 0 } onlyRegisterAs)
-      {
-         registerAs = classSymbol.AllInterfaces.Select(static x => x.ToDisplayString())
-                                 .Where(x => onlyRegisterAs.Contains(x))
+      var asTypes = attributeData.NamedArguments.GetArgumentArray<INamedTypeSymbol>("AsTypes")
+                                 .Select(static s => s.ToDisplayString())
                                  .ToArray();
-      }
-      else
-      {
-         registerAs = classSymbol.Interfaces.Select(static x => x.ToDisplayString())
-                                 .Where(static x => !IgnoredInterfaces.Contains(x))
-                                 .ToArray();
-      }
 
-      return registerAs;
+      var asTypesConstructor = attributeData.ConstructorArguments.Where(static arg => arg.Kind == TypedConstantKind.Array)
+                                            .SelectMany(static arg => arg.Values)
+                                            .Select(static tc => tc.Value as INamedTypeSymbol)
+                                            .Where(static type => type is not null)
+                                            .Select(static type => type?.ToDisplayString() ?? Empty)
+                                            .ToArray();
+
+      string[] combined = [..asTypes, ..asTypesConstructor];
+
+      if (combined.Any()) return combined;
+
+      var excludeTypes = attributeData.NamedArguments.GetArgumentArray<INamedTypeSymbol>("ExcludeTypes")
+                                      .Select(static s => s.ToDisplayString());
+
+      return classSymbol.Interfaces.Select(static x => x.ToDisplayString())
+                        .Where(x => !IgnoredInterfaces.Contains(x) && !excludeTypes.Contains(x))
+                        .ToArray();
    }
 
    static object? GetServiceKey(AttributeData attributeData)
    {
-      if (attributeData.AttributeConstructor?.Parameters.Length > 0 && attributeData.AttributeConstructor?.Parameters.Any(static a => a.Name == SERVICE_KEY) is true)
-      {
-         return attributeData.ConstructorArguments.First()
-                             .Value?.ToString();
-      }
+      if (attributeData.AttributeClass?.Name.Contains("RegisterKeyed") is false) return null;
 
-      return null;
+      var serviceKeyPosition = attributeData.AttributeConstructor?.Parameters.FirstOrDefault(static p => p.Name == "serviceKey")
+                                           ?.Ordinal
+                            ?? throw new ArgumentException("A service key was not provided for a keyed registration");
+
+      return attributeData.ConstructorArguments[serviceKeyPosition].Value;
    }
 
    public void Initialize(IncrementalGeneratorInitializationContext context)
