@@ -3,6 +3,7 @@
    <PropertyGroup>
       <Description>C# Source Generator to automatically register dependencies in Microsoft Dependency Injection Service Collection</Description>
       <PackageIcon>Icon.png</PackageIcon>
+      <PackageId>phasTrak.AutoRegisterInject</PackageId>
       <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
       <PackageProjectUrl>https://github.com/phasTrak/ActuallyUsefulAutoRegisterInject</PackageProjectUrl>
       <PackageReadmeFile>README.md</PackageReadmeFile>
