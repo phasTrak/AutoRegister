@@ -15,11 +15,10 @@
       <NoWarn>S3358,S3626</NoWarn>
       <Nullable>enable</Nullable>
       <OutputPath>$(MSBuildThisFileDirectory)bin\$(Configuration)\</OutputPath>
-      <Product>AutoRegisterInject</Product>
       <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
       <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
       <TargetFramework>netstandard2.0</TargetFramework>
-      <Title>AutoRegisterInject</Title>
+      <Title>AutoRegister</Title>
    </PropertyGroup>
 
    <ItemGroup>

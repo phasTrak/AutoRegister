@@ -1,5 +1,7 @@
+![logo](https://raw.githubusercontent.com/phasTrak/ActuallyUseful.AutoRegister/refs/heads/develop/Icon.png)
 [![Nuget](https://img.shields.io/nuget/v/AutoRegisterInject)](https://www.nuget.org/packages/AutoRegisterInject/)
-# <img src="Icon.png" width=32 /> (ActuallyUseful) AutoRegister
+
+# (ActuallyUseful) AutoRegister
 AutoRegister is a C# source generator that will automatically create Microsoft.Extensions.DependencyInjection registrations for types marked with attributes.
 
 > [!NOTE]
