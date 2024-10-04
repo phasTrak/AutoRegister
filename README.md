@@ -1,6 +1,6 @@
 [![Nuget](https://img.shields.io/nuget/v/AutoRegisterInject)](https://www.nuget.org/packages/AutoRegisterInject/)
-# <img src="Icon.png" width=32 /> (ActuallyUseful) AutoRegisterInject
-AutoRegisterInject is a C# source generator that will automatically create Microsoft.Extensions.DependencyInjection registrations for types marked with attributes.
+# <img src="Icon.png" width=32 /> (ActuallyUseful) AutoRegister
+AutoRegister is a C# source generator that will automatically create Microsoft.Extensions.DependencyInjection registrations for types marked with attributes.
 
 > [!NOTE]
 > This source generator is a fork of [AutoRegisterInject by @patrickklaeren](https://github.com/patrickklaeren/AutoRegisterInject).
@@ -30,16 +30,16 @@ internal IServiceCollection AutoRegister(this IServiceCollection serviceCollecti
 
 In larger projects, dependency injection registration becomes tedious and in team situations can lead to merge conflicts which can be easily avoided.
 
-AutoRegisterInject moves the responsibility of service registration to the owning type rather than external service collection configuration, giving control and oversight of the type that is going to be registered with the container.
+AutoRegister moves the responsibility of service registration to the owning type rather than external service collection configuration, giving control and oversight of the type that is going to be registered with the container.
 
 ## Installation
 
-Install the [Nuget](https://www.nuget.org/packages/AutoRegisterInject) package, and start decorating classes with ARI attributes.
+Install the [Nuget](https://www.nuget.org/packages/AutoRegisterInject) package, and start decorating classes with AutoRegister attributes.
 
-Use `dotnet add package AutoRegisterInject` or add a package reference manually:
+Use `dotnet add package phasTrak.AutoRegister` or add a package reference manually:
 
 ```xml
-<PackageReference Include="AutoRegisterInject" />
+<PackageReference Include="phasTrak.AutoRegister" />
 ```
 
 ## Usage
@@ -135,7 +135,7 @@ serviceCollection.AddTransient<IBaz, Bar>();
 
 ### Multiple assemblies
 
-In addition to the `AutoRegister` extension method, for every assembly that AutoRegisterInject is a part of, a `AutoRegisterFromAssemblyName` will be generated. This allows you to configure your service collection from one, main, executing assembly.
+In addition to the `AutoRegister` extension method, for every assembly that AutoRegister is a part of, a `AutoRegisterFromAssemblyName` will be generated. This allows you to configure your service collection from one, main, executing assembly.
 
 Given 3 assemblies, `MyProject.Main`, `MyProject.Services`, `MyProject.Data`, you can configure the `ServiceCollection` as such:
 
@@ -147,11 +147,11 @@ serviceCollection.AutoRegisterFromMyProjectData();
 serviceCollection.BuildServiceProvider();
 ```
 
-AutoRegisterInject will remove illegal characters from assembly names in order to generate legal C# method names. `,`, `.` and ` ` will be removed.
+AutoRegister will remove illegal characters from assembly names in order to generate legal C# method names. `,`, `.` and ` ` will be removed.
 
 If the resulting extension method name conflicts with another assembly, you can supply an assembly-level attribute to override the extension method name for that assembly.
 ```cs
-[assembly: AutoRegisterInjectAssemblyName("MyProjectDataServices")]
+[assembly: AutoRegisterAssemblyName("MyProjectDataServices")]
 ```
 This will rename the extension with the provided assembly name override:
 ```cs
@@ -202,6 +202,6 @@ This works for all applicable attributes.
 
 ## License
 
-AutoRegisterInject is MIT licensed. Do with it what you please under the terms of MIT.
+AutoRegister is MIT licensed. Do with it what you please under the terms of MIT.
 
 [View License](LICENSE.md)
