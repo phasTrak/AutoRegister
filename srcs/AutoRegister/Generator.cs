@@ -1,9 +1,7 @@
 ﻿namespace AutoRegister;
 
 [Generator(CSharp)]
-#pragma warning disable RS1036
 public class Generator : IIncrementalGenerator
-#pragma warning restore RS1036
 {
    #region fields
 
@@ -76,9 +74,11 @@ public class Generator : IIncrementalGenerator
                                                                                   .ToArray(),
                                                                                  x.Key.ServiceKey))));
 
-      var output = SourceConstants.GenerateClassSource.Replace("{0}", compilation.AssemblyName ?? "AutoRegister")
-                                  .Replace("{1}", assemblyNameForMethod)
-                                  .Replace("{2}", formatted);
+      var output = IsNullOrWhiteSpace(formatted)
+                      ? Empty // when there are no registrations should output an empty file
+                      : SourceConstants.GenerateClassSource.Replace("{0}", compilation.AssemblyName ?? "AutoRegister")
+                                       .Replace("{1}", assemblyNameForMethod)
+                                       .Replace("{2}", formatted);
 
       context.AddSource("AutoRegister.ServiceCollectionExtension.g.cs", SourceText.From(output, Encoding.UTF8));
 
