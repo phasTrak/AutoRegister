@@ -1,5 +1,5 @@
 ![logo](https://raw.githubusercontent.com/phasTrak/ActuallyUseful.AutoRegister/refs/heads/develop/Icon.png)
-[![Nuget](https://img.shields.io/nuget/v/AutoRegisterInject)](https://www.nuget.org/packages/AutoRegisterInject/)
+[![Nuget](https://img.shields.io/nuget/v/phasTrak.AutoRegister)](https://www.nuget.org/packages/phasTrak.AutoRegister/)
 
 # (ActuallyUseful) AutoRegister
 AutoRegister is a C# source generator that will automatically create Microsoft.Extensions.DependencyInjection registrations for types marked with attributes.
@@ -36,7 +36,7 @@ AutoRegister moves the responsibility of service registration to the owning type
 
 ## Installation
 
-Install the [Nuget](https://www.nuget.org/packages/AutoRegisterInject) package, and start decorating classes with AutoRegister attributes.
+Install the [Nuget](https://www.nuget.org/packages/phasTrak.AutoRegister) package, and start decorating classes with AutoRegister attributes.
 
 Use `dotnet add package phasTrak.AutoRegister` or add a package reference manually:
 
@@ -52,7 +52,7 @@ Classes should be decorated with one of four attributes:
 - `[RegisterTransient]`
 - `[RegisterHostedService]`
 
-Variants for keyed and the service `Try` register pattern are also available:
+Vants for keyed and the service `Try` register pattern are also available:
 - `[TryRegisterScoped]`
 - `[TryRegisterSingleton]`
 - `[TryRegisterTransient]`
@@ -162,9 +162,9 @@ serviceCollection.AutoRegisterFromMyProjectDataServices();
 
 ### Ignoring interfaces
 
-By default ARI will register a type with all the interfaces it implements, however this excludes `System.IDisposable` and its `IAsyncDisposable` counterpart.
+By default AutoRegister will register a type with all the interfaces it implements, however this excludes `System.IDisposable` and its `IAsyncDisposable` counterpart.
 
-You can ignore interfaces by telling ARI to *explicitly* register with only declared interfaces in the given attributes:
+You can ignore interfaces by telling AutoRegister to *explicitly* register with only declared interfaces in the given attributes:
 
 ```cs
 public interface IFoo { }
