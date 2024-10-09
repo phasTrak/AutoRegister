@@ -1,8 +1,8 @@
 ﻿<Project>
 
    <PropertyGroup>
-      <Date>2024.1004</Date>
-      <PreRelease></PreRelease>
+      <Date>2024.1009</Date>
+      <PreRelease>-beta-000</PreRelease>
       <Revision>0</Revision>
       <Wave>1.0</Wave>
       <Version>$(Wave).$(Revision)$(PreRelease)</Version>
