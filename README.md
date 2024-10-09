@@ -1,6 +1,13 @@
-# AutoRegisterInject
+![logo](https://raw.githubusercontent.com/phasTrak/ActuallyUseful.AutoRegister/refs/heads/develop/Icon.png)
+[![Nuget](https://img.shields.io/nuget/v/phasTrak.AutoRegister)](https://www.nuget.org/packages/phasTrak.AutoRegister/)
 
-AutoRegisterInject, also referred to as ARI, is a C# source generator that will automatically create Microsoft.Extensions.DependencyInjection registrations for types marked with attributes.
+# (ActuallyUseful) AutoRegister
+AutoRegister is a C# source generator that will automatically create Microsoft.Extensions.DependencyInjection registrations for types marked with attributes.
+
+> [!NOTE]
+> This source generator is a fork of [AutoRegisterInject by @patrickklaeren](https://github.com/patrickklaeren/AutoRegisterInject).
+> This fork provides support for a variety of usages that are not supported by ARI since it is highly opinionated.
+> This fork attempts to be non-opinionated in order to provide an actually useful product in most scenarios.
 
 This is a compile time alternative to reflection/assembly scanning for your injections or manually adding to the `ServiceCollection` every time a new type needs to be registered.
 
@@ -25,16 +32,16 @@ internal IServiceCollection AutoRegister(this IServiceCollection serviceCollecti
 
 In larger projects, dependency injection registration becomes tedious and in team situations can lead to merge conflicts which can be easily avoided.
 
-AutoRegisterInject moves the responsibility of service registration to the owning type rather than external service collection configuration, giving control and oversight of the type that is going to be registered with the container.
+AutoRegister moves the responsibility of service registration to the owning type rather than external service collection configuration, giving control and oversight of the type that is going to be registered with the container.
 
 ## Installation
 
-Install the [Nuget](https://www.nuget.org/packages/AutoRegisterInject) package, and start decorating classes with ARI attributes.
+Install the [Nuget](https://www.nuget.org/packages/phasTrak.AutoRegister) package, and start decorating classes with AutoRegister attributes.
 
-Use `dotnet add package AutoRegisterInject` or add a package reference manually:
+Use `dotnet add package phasTrak.AutoRegister` or add a package reference manually:
 
 ```xml
-<PackageReference Include="AutoRegisterInject" />
+<PackageReference Include="phasTrak.AutoRegister" />
 ```
 
 ## Usage
@@ -45,7 +52,7 @@ Classes should be decorated with one of four attributes:
 - `[RegisterTransient]`
 - `[RegisterHostedService]`
 
-Variants for keyed and the service `Try` register pattern are also available:
+Vants for keyed and the service `Try` register pattern are also available:
 - `[TryRegisterScoped]`
 - `[TryRegisterSingleton]`
 - `[TryRegisterTransient]`
@@ -106,9 +113,8 @@ and get the following output:
 serviceCollection.AddTransient<IBar, Bar>();
 ```
 
-**Important note:** AutoRegisterInject is opinionated and `Bar` will only be registered with its implemented interface. ARI will **not** register `Bar`. `Bar` will always need to be resolved from `IBar` in your code.
-
 Implementing multiple interfaces will have the implementing type be registered for each distinct interface.
+
 
 ```cs
 [RegisterTransient]
@@ -123,11 +129,15 @@ serviceCollection.AddTransient<IFoo, Bar>();
 serviceCollection.AddTransient<IBaz, Bar>();
 ```
 
-**Important note:** AutoRegisterInject is opinionated and `Bar` will only be registered with its implemented interfaces. ARI will **not** register `Bar`. `Bar` will always need to be resolved from `IBar`, `IFoo` or `IBaz` in your code.
+> [!NOTE]
+> If the target class implements an interface, it will only be registered with the implemented interfaces (`IBar`).
+> If the class should be resolved as `Bar` instead of by the interface, make use of the ExcludeTypes option:
+> ```cs
+> [RegisterTransient(ExcludeTypes = [typeof(IBar), typeof(IFoo), typeof(IBaz)])]
 
 ### Multiple assemblies
 
-In addition to the `AutoRegister` extension method, every assembly that AutoRegisterInject is a part of, a `AutoRegisterFromAssemblyName` will be generated. This allows you to configure your service collection from one, main, executing assembly.
+In addition to the `AutoRegister` extension method, for every assembly that AutoRegister is a part of, a `AutoRegisterFromAssemblyName` will be generated. This allows you to configure your service collection from one, main, executing assembly.
 
 Given 3 assemblies, `MyProject.Main`, `MyProject.Services`, `MyProject.Data`, you can configure the `ServiceCollection` as such:
 
@@ -139,13 +149,22 @@ serviceCollection.AutoRegisterFromMyProjectData();
 serviceCollection.BuildServiceProvider();
 ```
 
-AutoRegisterInject will remove illegal characters from assembly names in order to generate legal C# method names. `,`, `.` and ` ` will be removed.
+AutoRegister will remove illegal characters from assembly names in order to generate legal C# method names. `,`, `.` and ` ` will be removed.
+
+If the resulting extension method name conflicts with another assembly, you can supply an assembly-level attribute to override the extension method name for that assembly.
+```cs
+[assembly: AutoRegisterAssemblyName("MyProjectDataServices")]
+```
+This will rename the extension with the provided assembly name override:
+```cs
+serviceCollection.AutoRegisterFromMyProjectDataServices();
+```
 
 ### Ignoring interfaces
 
-By default ARI will register a type with all the interfaces it implements, however this excludes `System.IDisposable` and its `IAsyncDisposable` counterpart.
+By default AutoRegister will register a type with all the interfaces it implements, however this excludes `System.IDisposable` and its `IAsyncDisposable` counterpart.
 
-You can ignore interfaces by telling ARI to *explicitly* register with only declared interfaces in the given attributes:
+You can ignore interfaces by telling AutoRegister to *explicitly* register with only declared interfaces in the given attributes:
 
 ```cs
 public interface IFoo { }
@@ -169,8 +188,22 @@ Where you want to register as multiple interfaces, you can pass multiple types.
 public class Foo;
 ```
 
+You can also set specific interfaces to exclude from being registered with the ExcludeTypes option:
+```cs
+[RegisterScoped(ExcludeTypes = [typeof(IFoo)])]
+public class Foo;
+```
+
 This works for all applicable attributes.
+
+## Fork Changes
+ - Support `InternalsVisibleTo`
+ - Allow registering as multiple types (e.g. Scoped and KeyedScoped)
+ - Customized extension method naming
+ - Attributes and extensions are scoped to a namespace
 
 ## License
 
-AutoRegisterInject is MIT licensed. Do with it what you please under the terms of MIT.
+AutoRegister is MIT licensed. Do with it what you please under the terms of MIT.
+
+[View License](LICENSE.md)

@@ -1,0 +1,34 @@
+﻿<Project>
+
+   <Import Project="$(MSBuildThisFileDirectory)Version.props"/>
+
+   <PropertyGroup>
+      <AssemblyVersion>$(Wave).$(Date)</AssemblyVersion>
+      <Authors>phasTrak</Authors>
+      <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)Strict.ruleset</CodeAnalysisRuleSet>
+      <Company>phasTrak</Company>
+      <Copyright>© 2024 phasTrak</Copyright>
+      <FileVersion>$(Wave).$(Date)</FileVersion>
+      <ImplicitUsings>enable</ImplicitUsings>
+      <LangVersion>12.0</LangVersion>
+      <NoPackageAnalysis>true</NoPackageAnalysis>
+      <NoWarn>S3358,S3626</NoWarn>
+      <Nullable>enable</Nullable>
+      <OutputPath>$(MSBuildThisFileDirectory)bin\$(Configuration)\</OutputPath>
+      <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
+      <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
+      <TargetFramework>netstandard2.0</TargetFramework>
+      <Title>phasTrak.AutoRegister</Title>
+   </PropertyGroup>
+
+   <ItemGroup>
+      <PackageReference Include="PolySharp"
+                        PrivateAssets="all"/>
+   </ItemGroup>
+
+   <ItemGroup>
+      <Using Include="System.Diagnostics"/>
+      <Using Include="System.Diagnostics.CodeAnalysis"/>
+   </ItemGroup>
+
+</Project>
