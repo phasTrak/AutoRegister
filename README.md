@@ -1,4 +1,4 @@
-![logo](https://raw.githubusercontent.com/phasTrak/ActuallyUseful.AutoRegister/refs/heads/develop/Icon.png)
+![logo](https://raw.githubusercontent.com/phasTrak/ActuallyUseful.AutoRegister/refs/heads/main/Icon.png)
 [![Nuget](https://img.shields.io/nuget/v/phasTrak.AutoRegister)](https://www.nuget.org/packages/phasTrak.AutoRegister/)
 
 # (ActuallyUseful) AutoRegister
