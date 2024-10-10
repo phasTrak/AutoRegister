@@ -40,8 +40,13 @@ Install the [Nuget](https://www.nuget.org/packages/phasTrak.AutoRegister) packag
 
 Use `dotnet add package phasTrak.AutoRegister` or add a package reference manually:
 
+You can additionally mark the package as `PrivateAssets="all"` and `ExcludeAssets="runtime"`.
+
+Setting `PrivateAssets="all"` means any projects referencing this one will not also get a reference to the AutoRegister package. Setting `ExcludeAssets="runtime"` ensures the AutoRegister.Attributes.dll file is not copied to your build output (it is not required at runtime).
 ```xml
-<PackageReference Include="phasTrak.AutoRegister" />
+<PackageReference Include="phasTrak.AutoRegister"
+                  ExcludeAssets="runtime"
+                  PrivateAssets="all" />
 ```
 
 ## Usage
