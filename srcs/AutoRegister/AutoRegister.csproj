@@ -13,7 +13,6 @@
    </PropertyGroup>
 
    <PropertyGroup>
-      <DevelopmentDependency>true</DevelopmentDependency>
       <GeneratePackageOnBuild Condition="'$(Configuration)'=='Release'">True</GeneratePackageOnBuild>
       <IncludeBuildOutput>false</IncludeBuildOutput>
       <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
