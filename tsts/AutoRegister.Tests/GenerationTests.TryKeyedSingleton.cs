@@ -8,6 +8,7 @@ public partial class GenerationTests
    public Task ShouldTryRegisterKeyedSingleton() =>
       """
       using AutoRegister;
+      namespace Tests;
       [TryRegisterKeyedSingleton(serviceKey: "BazKey")]
       public class Foo { }
       """.VerifyAsync();
@@ -16,6 +17,7 @@ public partial class GenerationTests
    public Task ShouldTryRegisterKeyedSingletonFromInterface() =>
       """
       using AutoRegister;
+      namespace Tests;
       [TryRegisterKeyedSingleton(serviceKey: "BazKey")]
       public class Foo : IFoo { }
       public interface IFoo { }

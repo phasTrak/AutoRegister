@@ -8,6 +8,7 @@ public partial class GenerationTests
    public Task ShouldRegisterSingleton() =>
       """
       using AutoRegister;
+      namespace Tests;
       [RegisterSingleton]
       public class Foo { }
       """.VerifyAsync();
@@ -16,6 +17,7 @@ public partial class GenerationTests
    public Task ShouldRegisterSingletonFromInterface() =>
       """
       using AutoRegister;
+      namespace Tests;
       [RegisterSingleton]
       public class Foo : IFoo { }
       public interface IFoo { }

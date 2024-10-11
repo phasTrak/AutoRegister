@@ -8,6 +8,7 @@ public partial class GenerationTests
    public Task ShouldRegisterScoped() =>
       """
       using AutoRegister;
+      namespace Tests;
       [RegisterScoped]
       public class Foo { }
       """.VerifyAsync();
@@ -16,6 +17,7 @@ public partial class GenerationTests
    public Task ShouldRegisterScopedFromInterface() =>
       """
       using AutoRegister;
+      namespace Tests;
       [RegisterScoped]
       public class Foo : IFoo { }
       public interface IFoo { }

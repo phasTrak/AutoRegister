@@ -8,6 +8,7 @@ public partial class GenerationTests
    public Task ShouldRegisterTryTransient() =>
       """
       using AutoRegister;
+      namespace Tests;
       [TryRegisterTransient]
       public class Foo { }
       """.VerifyAsync();
@@ -16,6 +17,7 @@ public partial class GenerationTests
    public Task ShouldRegisterTryTransientFromInterface() =>
       """
       using AutoRegister;
+      namespace Tests;
       [TryRegisterTransient]
       public class Foo : IFoo { }
       public interface IFoo { }

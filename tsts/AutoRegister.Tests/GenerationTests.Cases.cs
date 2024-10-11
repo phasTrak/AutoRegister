@@ -11,6 +11,7 @@ public partial class GenerationTests
       using Microsoft.Extensions.Hosting;
       using System.Threading;
       using System.Threading.Tasks;
+      namespace Tests;
       [RegisterHostedService]
       public class Foo : IHostedService 
       {

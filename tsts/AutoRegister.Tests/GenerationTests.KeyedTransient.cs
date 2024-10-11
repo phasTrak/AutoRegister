@@ -8,6 +8,7 @@ public partial class GenerationTests
    public Task ShouldRegisterKeyedTransient() =>
       """
       using AutoRegister;
+      namespace Tests;
       [RegisterKeyedTransient(serviceKey: "BazKey")]
       public class Foo { }
       """.VerifyAsync();
@@ -16,6 +17,7 @@ public partial class GenerationTests
    public Task ShouldRegisterKeyedTransientFromInterface() =>
       """
       using AutoRegister;
+      namespace Tests;
       [RegisterKeyedTransient(serviceKey: "BazKey")]
       public class Foo : IFoo { }
       public interface IFoo { }

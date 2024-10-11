@@ -1,6 +1,4 @@
-﻿// ReSharper disable UnusedParameter.Local
-
-namespace AutoRegister;
+﻿namespace AutoRegister;
 
 [AttributeUsage(Assembly)]
 [Conditional("AUTO_REGISTER_USAGES")]

@@ -8,6 +8,7 @@ public partial class GenerationTests
    public Task ShouldRegisterKeyedScoped() =>
       """
       using AutoRegister;
+      namespace Tests;
       [RegisterKeyedScoped(serviceKey: "BazKey")]
       public class Foo { }
       """.VerifyAsync();
@@ -16,6 +17,7 @@ public partial class GenerationTests
    public Task ShouldRegisterKeyedScopedFromInterface() =>
       """
       using AutoRegister;
+      namespace Tests;
       [RegisterKeyedScoped(serviceKey: "BazKey")]
       public class Foo : IFoo { }
       public interface IFoo { }

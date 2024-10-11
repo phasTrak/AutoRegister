@@ -8,6 +8,7 @@ public partial class GenerationTests
    public Task ShouldRegisterAll() =>
       """
       using AutoRegister;
+      namespace Tests;
       [RegisterScoped, RegisterSingleton, RegisterTransient]
       public class Foo { }
 
@@ -17,6 +18,7 @@ public partial class GenerationTests
    public Task ShouldRegisterAllWithInterface() =>
       """
       using AutoRegister;
+      namespace Tests;
       [RegisterScoped, RegisterSingleton, RegisterTransient]
       public class Foo : IFoo { }
       public interface IFoo { }

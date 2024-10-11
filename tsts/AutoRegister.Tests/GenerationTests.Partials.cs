@@ -8,6 +8,7 @@ public partial class GenerationTests
    public Task ShouldRegisterPartialClassesForEachRegistrationIfRegisteredMultipleTimes() =>
       """
       using AutoRegister;
+      namespace Tests;
       [RegisterScoped]
       public partial class Bar { }
       [RegisterSingleton]
@@ -19,6 +20,7 @@ public partial class GenerationTests
    public Task ShouldRegisterPartialClassesOnce() =>
       """
       using AutoRegister;
+      namespace Tests;
       [RegisterScoped]
       public partial class Bar { }
       public partial class Bar { }
@@ -29,6 +31,7 @@ public partial class GenerationTests
    public Task ShouldRegisterPartialClassesOnceWithInterface() =>
       """
       using AutoRegister;
+      namespace Tests;
       [RegisterScoped]
       public partial class Bar { }
       public partial class Bar : IBar { }

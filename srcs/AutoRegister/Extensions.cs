@@ -34,9 +34,9 @@ public static class Extensions
       return result;
    }
 
-   public static string? GetAssemblyNameFromAttribute(this Compilation compilation)
+   public static string? GetAssemblyAttributeValue(this Compilation compilation, string fullyQualifiedMetadataName)
    {
-      var attributeSymbol = compilation.GetTypeByMetadataName("AutoRegister.AutoRegisterAssemblyNameAttribute");
+      var attributeSymbol = compilation.GetTypeByMetadataName(fullyQualifiedMetadataName);
 
       return attributeSymbol is null
                 ? null

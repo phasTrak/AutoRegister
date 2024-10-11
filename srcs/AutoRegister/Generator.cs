@@ -55,7 +55,7 @@ public class Generator : IIncrementalGenerator
 
    static void Execute(Compilation compilation, ImmutableArray<IEnumerable<AutoRegisteredClass>> classes, SourceProductionContext context)
    {
-      var assemblyNameForMethod = compilation.GetAssemblyNameFromAttribute()
+      var assemblyNameForMethod = compilation.GetAssemblyAttributeValue("AutoRegister.AutoRegisterAssemblyNameAttribute")
                                ?? compilation.AssemblyName?.Replace(".", Empty)
                                              .Replace(" ", Empty)
                                              .Trim()
@@ -74,9 +74,16 @@ public class Generator : IIncrementalGenerator
                                                                                   .ToArray(),
                                                                                  x.Key.ServiceKey))));
 
+      var classNamespace = compilation.GetAssemblyAttributeValue("AutoRegister.AutoRegisterNamespaceAttribute")
+                        ?? classes.SelectMany(static c => c)
+                                  .OrderBy(static c => c.ClassNamespace.Length)
+                                  .FirstOrDefault()
+                                 ?.ClassNamespace
+                        ?? "AutoRegister";
+
       var output = IsNullOrWhiteSpace(formatted)
                       ? Empty // when there are no registrations should output an empty file
-                      : SourceConstants.GenerateClassSource.Replace("{0}", compilation.AssemblyName ?? "AutoRegister")
+                      : SourceConstants.GenerateClassSource.Replace("{0}", classNamespace)
                                        .Replace("{1}", assemblyNameForMethod)
                                        .Replace("{2}", formatted);
 
@@ -183,10 +190,12 @@ public class Generator : IIncrementalGenerator
 
          var attributeData = classSymbol.GetFirstAutoRegisterAttribute(attributeName);
 
-         var serviceKey = GetServiceKey(attributeData);
-         var registerAs = GetRegisterAs(attributeData, classSymbol);
+         var serviceKey     = GetServiceKey(attributeData);
+         var registerAs     = GetRegisterAs(attributeData, classSymbol);
+         var classNamespace = classSymbol.ContainingNamespace.ToDisplayString();
 
          yield return new (typeName,
+                           classNamespace,
                            registrationType,
                            registerAs,
                            serviceKey);

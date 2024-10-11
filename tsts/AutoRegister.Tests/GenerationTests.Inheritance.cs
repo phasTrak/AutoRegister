@@ -8,6 +8,7 @@ public partial class GenerationTests
    public Task ShouldNotRegisterClassesThatInheritRegisteredClasses() =>
       """
       using AutoRegister;
+      namespace Tests;
       [RegisterTransient]
       public class Foo { }
       public class Bar : Foo { }
@@ -18,6 +19,7 @@ public partial class GenerationTests
    public Task ShouldRegisterClassesThatInheritRegisteredClassesWithTheirOwnRegistration() =>
       """
       using AutoRegister;
+      namespace Tests;
       [RegisterTransient]
       public class Foo { }
       [RegisterScoped]
@@ -29,6 +31,7 @@ public partial class GenerationTests
    public Task ShouldRegisterClassesThatInheritRegisteredClassesWithTheirOwnRegistrationWithInterface() =>
       """
       using AutoRegister;
+      namespace Tests;
       [RegisterTransient]
       public class Foo { }
       [RegisterScoped]
