@@ -165,7 +165,7 @@ public class Generator : IIncrementalGenerator
    {
       var classDeclaration = (ClassDeclarationSyntax)context.Node;
       var classSymbol      = (INamedTypeSymbol?)context.SemanticModel.GetDeclaredSymbol(classDeclaration);
-      var typeName         = classSymbol?.ToDisplayString();
+      var typeName         = classSymbol?.ToDisplayString(FullyQualifiedFormat);
 
       if (classSymbol is null || typeName is null) yield break;
 
@@ -198,7 +198,7 @@ public class Generator : IIncrementalGenerator
       string[] asTypes =
       [
          ..attributeData.NamedArguments.GetArgumentArray<INamedTypeSymbol>("AsTypes")
-                        .Select(static s => s.ToDisplayString())
+                        .Select(static s => s.ToDisplayString(FullyQualifiedFormat))
       ];
 
       string[] asTypesConstructor =
@@ -207,7 +207,7 @@ public class Generator : IIncrementalGenerator
                         .SelectMany(static arg => arg.Values)
                         .Select(static tc => tc.Value as INamedTypeSymbol)
                         .Where(static type => type is not null)
-                        .Select(static type => type?.ToDisplayString() ?? Empty)
+                        .Select(static type => type?.ToDisplayString(FullyQualifiedFormat) ?? Empty)
       ];
 
       string[] combined = [..asTypes, ..asTypesConstructor];
@@ -215,11 +215,11 @@ public class Generator : IIncrementalGenerator
       if (combined.Any()) return combined;
 
       var excludeTypes = attributeData.NamedArguments.GetArgumentArray<INamedTypeSymbol>("ExcludeTypes")
-                                      .Select(static s => s.ToDisplayString());
+                                      .Select(static s => s.ToDisplayString(FullyQualifiedFormat));
 
       return
       [
-         ..classSymbol.Interfaces.Select(static x => x.ToDisplayString())
+         ..classSymbol.Interfaces.Select(static x => x.ToDisplayString(FullyQualifiedFormat))
                       .Where(x => !IgnoredInterfaces.Contains(x) && !excludeTypes.Contains(x))
       ];
    }

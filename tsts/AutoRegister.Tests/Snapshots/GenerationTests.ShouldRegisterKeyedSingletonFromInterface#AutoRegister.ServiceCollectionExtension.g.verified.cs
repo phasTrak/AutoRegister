@@ -17,7 +17,7 @@ public static class AutoRegisterServiceCollectionExtensions
 
     internal static Microsoft.Extensions.DependencyInjection.IServiceCollection AutoRegister(this Microsoft.Extensions.DependencyInjection.IServiceCollection serviceCollection)
     {
-        serviceCollection.AddKeyedSingleton<IFoo, Foo>("BazKey");
+        serviceCollection.AddKeyedSingleton<global::Tests.IFoo, global::Tests.Foo>("BazKey");
         return serviceCollection;
     }
 }

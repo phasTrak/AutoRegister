@@ -17,13 +17,13 @@ public static class AutoRegisterServiceCollectionExtensions
 
     internal static Microsoft.Extensions.DependencyInjection.IServiceCollection AutoRegister(this Microsoft.Extensions.DependencyInjection.IServiceCollection serviceCollection)
     {
-        serviceCollection.AddHostedService<Foo>();
-serviceCollection.AddScoped<Bar>();
-serviceCollection.AddTransient<Baz>();
-serviceCollection.AddSingleton<IBaz, Bang>();
-serviceCollection.TryAddScoped<Far>();
-serviceCollection.AddKeyedTransient<Faz>("MyFazKey");
-serviceCollection.TryAddKeyedSingleton<IBaz, Fang>("MyFangKey");
+        serviceCollection.AddHostedService<global::Tests.Foo>();
+serviceCollection.AddScoped<global::Tests.Bar>();
+serviceCollection.AddTransient<global::Tests.Baz>();
+serviceCollection.AddSingleton<global::Tests.IBaz, global::Tests.Bang>();
+serviceCollection.TryAddScoped<global::Tests.Far>();
+serviceCollection.AddKeyedTransient<global::Tests.Faz>("MyFazKey");
+serviceCollection.TryAddKeyedSingleton<global::Tests.IBaz, global::Tests.Fang>("MyFangKey");
         return serviceCollection;
     }
 }

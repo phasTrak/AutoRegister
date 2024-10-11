@@ -17,8 +17,8 @@ public static class AutoRegisterServiceCollectionExtensions
 
     internal static Microsoft.Extensions.DependencyInjection.IServiceCollection AutoRegister(this Microsoft.Extensions.DependencyInjection.IServiceCollection serviceCollection)
     {
-        serviceCollection.AddTransient<Foo>();
-serviceCollection.AddScoped<IBar, Bar>();
+        serviceCollection.AddTransient<global::Tests.Foo>();
+serviceCollection.AddScoped<global::Tests.IBar, global::Tests.Bar>();
         return serviceCollection;
     }
 }

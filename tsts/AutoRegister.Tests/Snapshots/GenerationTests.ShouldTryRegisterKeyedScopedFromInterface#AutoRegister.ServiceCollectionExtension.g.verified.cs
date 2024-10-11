@@ -17,7 +17,7 @@ public static class AutoRegisterServiceCollectionExtensions
 
     internal static Microsoft.Extensions.DependencyInjection.IServiceCollection AutoRegister(this Microsoft.Extensions.DependencyInjection.IServiceCollection serviceCollection)
     {
-        serviceCollection.TryAddKeyedScoped<IFoo, Foo>("BazKey");
+        serviceCollection.TryAddKeyedScoped<global::Tests.IFoo, global::Tests.Foo>("BazKey");
         return serviceCollection;
     }
 }

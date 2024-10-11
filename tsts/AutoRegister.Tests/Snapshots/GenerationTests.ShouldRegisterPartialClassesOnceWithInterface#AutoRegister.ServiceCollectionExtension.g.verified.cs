@@ -17,7 +17,7 @@ public static class AutoRegisterServiceCollectionExtensions
 
     internal static Microsoft.Extensions.DependencyInjection.IServiceCollection AutoRegister(this Microsoft.Extensions.DependencyInjection.IServiceCollection serviceCollection)
     {
-        serviceCollection.AddScoped<IBar, Bar>();
+        serviceCollection.AddScoped<global::Tests.IBar, global::Tests.Bar>();
         return serviceCollection;
     }
 }
