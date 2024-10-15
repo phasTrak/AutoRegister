@@ -1,6 +1,11 @@
 MIT License
 
 Copyright (c) 2024 phasTrak
+Copyright (c) 2024 Patrick Klaeren
+
+Portions of this code are licensed under the MIT License from @BlackWhiteYoshi/AutoInterface.
+Copyright for portions of AutoRegister are held by Patrick Klaeren, 2024 as part of AutoRegisterInject.
+All other copyright for AutoRegister are held by phasTrak, 2024.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
