@@ -165,6 +165,13 @@ This will rename the extension with the provided assembly name override:
 serviceCollection.AutoRegisterFromMyProjectDataServices();
 ```
 
+### Namespace
+
+The `AutoRegister` extension methods will be generated in the namespace of the decorated classes by default. This can be modified using an assembly-level attribute to override the namespace for that assembly/
+```cs
+[assembly: AutoRegisterNamespace("MyProject.Data.Services")]
+```
+
 ### Ignoring interfaces
 
 By default AutoRegister will register a type with all the interfaces it implements, however this excludes `System.IDisposable` and its `IAsyncDisposable` counterpart.
@@ -201,14 +208,12 @@ public class Foo;
 
 This works for all applicable attributes.
 
-## Fork Changes
- - Support `InternalsVisibleTo`
- - Allow registering as multiple types (e.g. Scoped and KeyedScoped)
- - Customized extension method naming
- - Attributes and extensions are scoped to a namespace
-
 ## License
 
 AutoRegister is MIT licensed. Do with it what you please under the terms of MIT.
+
+[Portions](srcs/AutoRegister/ArgumentExtensions.cs) of this code are licensed under the MIT License from [@BlackWhiteYoshi/AutoInterface](https://github.com/BlackWhiteYoshi/AutoInterface).
+Copyright for portions of AutoRegister are held by Patrick Klaeren, 2024 as part of [AutoRegisterInject](https://github.com/patrickklaeren/AutoRegisterInject).
+All other copyright for AutoRegister are held by phasTrak, 2024.
 
 [View License](LICENSE.md)
