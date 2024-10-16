@@ -73,12 +73,7 @@ public class Generator : IIncrementalGenerator
                                                                                  [..x.SelectMany(static d => d.Interfaces)],
                                                                                  x.Key.ServiceKey))));
 
-      var classNamespace = compilation.GetAssemblyAttributeValue("AutoRegister.AutoRegisterNamespaceAttribute")
-                        ?? classes.SelectMany(static c => c)
-                                  .OrderBy(static c => c.ClassNamespace.Length)
-                                  .FirstOrDefault()
-                                 ?.ClassNamespace
-                        ?? "AutoRegister";
+      var classNamespace = compilation.GetAssemblyAttributeValue("AutoRegister.AutoRegisterNamespaceAttribute") ?? GetNamespaceFromClasses(classes) ?? "AutoRegister";
 
       var output = IsNullOrWhiteSpace(formatted)
                       ? Empty // when there are no registrations should output an empty file
@@ -187,11 +182,15 @@ public class Generator : IIncrementalGenerator
 
          if (!RegistrationTypes.TryGetValue(attributeName, out var registrationType)) continue;
 
-         var attributeData = classSymbol.GetFirstAutoRegisterAttribute(attributeName);
+         var attributeData   = classSymbol.GetFirstAutoRegisterAttribute(attributeName);
+         var namespaceSymbol = classSymbol.ContainingNamespace;
 
-         var serviceKey     = GetServiceKey(attributeData);
-         var registerAs     = GetRegisterAs(attributeData, classSymbol);
-         var classNamespace = classSymbol.ContainingNamespace.ToDisplayString();
+         var serviceKey = GetServiceKey(attributeData);
+         var registerAs = GetRegisterAs(attributeData, classSymbol);
+
+         var classNamespace = namespaceSymbol.IsGlobalNamespace
+                                 ? Empty
+                                 : namespaceSymbol.ToDisplayString();
 
          yield return new (typeName,
                            classNamespace,
@@ -200,6 +199,13 @@ public class Generator : IIncrementalGenerator
                            serviceKey);
       }
    }
+
+   static string? GetNamespaceFromClasses(ImmutableArray<IEnumerable<AutoRegisteredClass>> classes) =>
+      classes.SelectMany(static c => c)
+             .Select(static c => c.ClassNamespace)
+             .Where(static n => !IsNullOrWhiteSpace(n))
+             .OrderBy(static n => n.Length)
+             .FirstOrDefault();
 
    static string[] GetRegisterAs(AttributeData? attributeData, ITypeSymbol classSymbol)
    {
