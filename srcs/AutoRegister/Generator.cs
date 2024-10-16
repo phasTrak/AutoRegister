@@ -70,8 +70,7 @@ public class Generator : IIncrementalGenerator
                                                                          })
                                                     .Select(x => GetRegistration(x.Key.RegistrationType,
                                                                                  x.Key.ClassName,
-                                                                                 x.SelectMany(static d => d.Interfaces)
-                                                                                  .ToArray(),
+                                                                                 [..x.SelectMany(static d => d.Interfaces)],
                                                                                  x.Key.ServiceKey))));
 
       var classNamespace = compilation.GetAssemblyAttributeValue("AutoRegister.AutoRegisterNamespaceAttribute")
@@ -168,7 +167,7 @@ public class Generator : IIncrementalGenerator
       }
    }
 
-   static IEnumerable<AutoRegisteredClass> GetAutoRegisteredClassDeclarations(GeneratorSyntaxContext context)
+   static IEnumerable<AutoRegisteredClass> GetAutoRegisteredClassDeclarations(GeneratorSyntaxContext context, CancellationToken cancellationToken)
    {
       var classDeclaration = (ClassDeclarationSyntax)context.Node;
       var classSymbol      = (INamedTypeSymbol?)context.SemanticModel.GetDeclaredSymbol(classDeclaration);
@@ -202,29 +201,44 @@ public class Generator : IIncrementalGenerator
       }
    }
 
-   static string[] GetRegisterAs(AttributeData attributeData, ITypeSymbol classSymbol)
+   static string[] GetRegisterAs(AttributeData? attributeData, ITypeSymbol classSymbol)
    {
-      string[] asTypes =
-      [
-         ..attributeData.NamedArguments.GetArgumentArray<INamedTypeSymbol>("AsTypes")
-                        .Select(static s => s.ToDisplayString(FullyQualifiedFormat))
-      ];
+      string[] asTypes = attributeData switch
+                         {
+                            null => [],
+                            _ =>
+                            [
+                               ..attributeData.NamedArguments.GetArgumentArray<INamedTypeSymbol>("AsTypes")
+                                              .Select(static s => s.ToDisplayString(FullyQualifiedFormat))
+                            ]
+                         };
 
-      string[] asTypesConstructor =
-      [
-         ..attributeData.ConstructorArguments.Where(static arg => arg.Kind is TypedConstantKind.Array)
-                        .SelectMany(static arg => arg.Values)
-                        .Select(static tc => tc.Value as INamedTypeSymbol)
-                        .Where(static type => type is not null)
-                        .Select(static type => type?.ToDisplayString(FullyQualifiedFormat) ?? Empty)
-      ];
+      string[] asTypesConstructor = attributeData switch
+                                    {
+                                       null => [],
+                                       _ =>
+                                       [
+                                          ..attributeData.ConstructorArguments.Where(static arg => arg.Kind is TypedConstantKind.Array)
+                                                         .SelectMany(static arg => arg.Values)
+                                                         .Select(static tc => tc.Value as INamedTypeSymbol)
+                                                         .Where(static type => type is not null)
+                                                         .Select(static type => type?.ToDisplayString(FullyQualifiedFormat) ?? Empty)
+                                       ]
+                                    };
 
       string[] combined = [..asTypes, ..asTypesConstructor];
 
       if (combined.Any()) return combined;
 
-      var excludeTypes = attributeData.NamedArguments.GetArgumentArray<INamedTypeSymbol>("ExcludeTypes")
-                                      .Select(static s => s.ToDisplayString(FullyQualifiedFormat));
+      IEnumerable<string> excludeTypes = attributeData switch
+                                         {
+                                            null => [],
+                                            _ =>
+                                            [
+                                               ..attributeData.NamedArguments.GetArgumentArray<INamedTypeSymbol>("ExcludeTypes")
+                                                              .Select(static s => s.ToDisplayString(FullyQualifiedFormat))
+                                            ]
+                                         };
 
       return
       [
@@ -233,9 +247,9 @@ public class Generator : IIncrementalGenerator
       ];
    }
 
-   static object? GetServiceKey(AttributeData attributeData)
+   static object? GetServiceKey(AttributeData? attributeData)
    {
-      if (attributeData.AttributeClass?.Name.Contains("RegisterKeyed") is false) return null;
+      if (attributeData is null || attributeData.AttributeClass?.Name.Contains("RegisterKeyed") is false) return null;
 
       var serviceKeyPosition = attributeData.AttributeConstructor?.Parameters.FirstOrDefault(static p => p.Name is "serviceKey")
                                            ?.Ordinal
@@ -246,7 +260,7 @@ public class Generator : IIncrementalGenerator
 
    public void Initialize(IncrementalGeneratorInitializationContext context)
    {
-      var autoRegistered = context.SyntaxProvider.CreateSyntaxProvider(static (node, _) => node is ClassDeclarationSyntax { AttributeLists.Count: > 0 }, static (ctx, _) => GetAutoRegisteredClassDeclarations(ctx))
+      var autoRegistered = context.SyntaxProvider.CreateSyntaxProvider(static (node, _) => node is ClassDeclarationSyntax { AttributeLists.Count: > 0 }, GetAutoRegisteredClassDeclarations)
                                   .Where(static autoRegisteredClass => autoRegisteredClass is not null);
 
       var compilationModel = context.CompilationProvider.Combine(autoRegistered.Collect());

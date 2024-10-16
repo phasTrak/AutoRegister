@@ -17,9 +17,9 @@ public static class AttributeExtensions
                              .FirstOrDefault();
    }
 
-   public static AttributeData GetFirstAutoRegisterAttribute(this ISymbol symbol, string attributeName) =>
+   public static AttributeData? GetFirstAutoRegisterAttribute(this ISymbol symbol, string attributeName) =>
       symbol.GetAttributes()
-            .First(ad => ad.AttributeClass?.Name == attributeName);
+            .FirstOrDefault(ad => ad.AttributeClass?.Name == attributeName);
 
    #endregion
 }
