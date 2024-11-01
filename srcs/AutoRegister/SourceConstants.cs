@@ -14,6 +14,7 @@ sealed class SourceConstants
                                                
                                                namespace {0};
                                                
+                                               #pragma warning disable CS1591 // Disable missing XML comment warning
                                                public static class AutoRegisterServiceCollectionExtensions
                                                {
                                                    public static Microsoft.Extensions.DependencyInjection.IServiceCollection AutoRegisterFrom{1}(this Microsoft.Extensions.DependencyInjection.IServiceCollection serviceCollection)
@@ -27,6 +28,7 @@ sealed class SourceConstants
                                                        return serviceCollection;
                                                    }
                                                }
+                                               #pragma warning restore CS1591 // Re-enable missing XML comment warning
                                                """;
 
    internal static readonly string GenerateHostedServiceSource              = "serviceCollection.AddHostedService<{0}>();";
