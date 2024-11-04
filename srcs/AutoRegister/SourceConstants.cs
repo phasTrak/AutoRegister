@@ -14,19 +14,19 @@ sealed class SourceConstants
                                                
                                                namespace {0};
                                                
+                                               #pragma warning disable CS1591 // Disable missing XML comment warning
                                                public static class AutoRegisterServiceCollectionExtensions
                                                {
-                                                   public static Microsoft.Extensions.DependencyInjection.IServiceCollection AutoRegisterFrom{1}(this Microsoft.Extensions.DependencyInjection.IServiceCollection serviceCollection)
-                                                   {
-                                                       return AutoRegister(serviceCollection);
-                                                   }
+                                                   public static Microsoft.Extensions.DependencyInjection.IServiceCollection AutoRegisterFrom{1}(this Microsoft.Extensions.DependencyInjection.IServiceCollection serviceCollection) => AutoRegister(serviceCollection);
                                                
                                                    internal static Microsoft.Extensions.DependencyInjection.IServiceCollection AutoRegister(this Microsoft.Extensions.DependencyInjection.IServiceCollection serviceCollection)
                                                    {
                                                        {2}
+                                                       
                                                        return serviceCollection;
                                                    }
                                                }
+                                               #pragma warning restore CS1591 // Re-enable missing XML comment warning
                                                """;
 
    internal static readonly string GenerateHostedServiceSource              = "serviceCollection.AddHostedService<{0}>();";
