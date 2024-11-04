@@ -17,14 +17,12 @@ sealed class SourceConstants
                                                #pragma warning disable CS1591 // Disable missing XML comment warning
                                                public static class AutoRegisterServiceCollectionExtensions
                                                {
-                                                   public static Microsoft.Extensions.DependencyInjection.IServiceCollection AutoRegisterFrom{1}(this Microsoft.Extensions.DependencyInjection.IServiceCollection serviceCollection)
-                                                   {
-                                                       return AutoRegister(serviceCollection);
-                                                   }
+                                                   public static Microsoft.Extensions.DependencyInjection.IServiceCollection AutoRegisterFrom{1}(this Microsoft.Extensions.DependencyInjection.IServiceCollection serviceCollection) => AutoRegister(serviceCollection);
                                                
                                                    internal static Microsoft.Extensions.DependencyInjection.IServiceCollection AutoRegister(this Microsoft.Extensions.DependencyInjection.IServiceCollection serviceCollection)
                                                    {
                                                        {2}
+                                                       
                                                        return serviceCollection;
                                                    }
                                                }
