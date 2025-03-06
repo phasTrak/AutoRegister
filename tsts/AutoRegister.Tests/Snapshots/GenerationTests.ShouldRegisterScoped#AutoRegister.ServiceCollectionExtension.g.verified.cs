@@ -8,16 +8,16 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Tests;
 
+#pragma warning disable CS1591 // Disable missing XML comment warning
 public static class AutoRegisterServiceCollectionExtensions
 {
-    public static Microsoft.Extensions.DependencyInjection.IServiceCollection AutoRegisterFromTests(this Microsoft.Extensions.DependencyInjection.IServiceCollection serviceCollection)
-    {
-        return AutoRegister(serviceCollection);
-    }
+    public static Microsoft.Extensions.DependencyInjection.IServiceCollection AutoRegisterFromTests(this Microsoft.Extensions.DependencyInjection.IServiceCollection serviceCollection) => AutoRegister(serviceCollection);
 
     internal static Microsoft.Extensions.DependencyInjection.IServiceCollection AutoRegister(this Microsoft.Extensions.DependencyInjection.IServiceCollection serviceCollection)
     {
         serviceCollection.AddScoped<global::Tests.Foo>();
+        
         return serviceCollection;
     }
 }
+#pragma warning restore CS1591 // Re-enable missing XML comment warning
