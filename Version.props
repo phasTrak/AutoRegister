@@ -1,9 +1,9 @@
 ﻿<Project>
 
    <PropertyGroup>
-      <Date>2024.1104</Date>
+      <Date>2025.306</Date>
       <PreRelease></PreRelease>
-      <Revision>3</Revision>
+      <Revision>4</Revision>
       <Wave>2.0</Wave>
       <Version>$(Wave).$(Revision)$(PreRelease)</Version>
    </PropertyGroup>
